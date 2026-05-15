@@ -1,112 +1,551 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
-import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import Checkbox from '@/Components/Checkbox.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import {
+    Head,
+    Link,
+    useForm
+} from '@inertiajs/vue3'
 
-const form = useForm({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-    terms: false,
-});
+const form =
+    useForm({
+        name: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+        terms: false,
+    })
 
-const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
-};
+const submit =
+    () => {
+
+        form.post(
+            route('register'),
+            {
+                onFinish:
+                    () =>
+                        form.reset(
+                            'password',
+                            'password_confirmation'
+                        ),
+            }
+        )
+    }
 </script>
 
 <template>
-    <Head title="Register" />
+    <Head title="Crear cuenta" />
 
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
-                <TextInput
-                    id="name"
-                    v-model="form.name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="name"
+    <div
+        class="
+            min-h-screen
+            bg-slate-50
+            flex
+            items-center
+            justify-center
+            px-6
+            py-10
+        "
+    >
+        <div
+            class="
+                w-full
+                max-w-6xl
+                grid
+                lg:grid-cols-2
+                bg-white
+                rounded-[40px]
+                shadow-xl
+                overflow-hidden
+                border
+                border-slate-200
+            "
+        >
+            <!-- izquierda -->
+            <div
+                class="
+                    hidden
+                    lg:flex
+                    flex-col
+                    justify-between
+                    p-14
+                    bg-slate-900
+                    text-white
+                    relative
+                    overflow-hidden
+                "
+            >
+                <div
+                    class="
+                        absolute
+                        top-0
+                        right-0
+                        h-80
+                        w-80
+                        rounded-full
+                        bg-blue-500/20
+                        blur-[120px]
+                    "
                 />
-                <InputError class="mt-2" :message="form.errors.name" />
-            </div>
 
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="username"
-                />
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
+                <div class="relative z-10">
 
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-                <TextInput
-                    id="password"
-                    v-model="form.password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
+                    <div
+                        class="
+                            flex
+                            items-center
+                            gap-4
+                            mb-10
+                        "
+                    >
+                        <div
+                            class="
+                                h-14
+                                w-14
+                                rounded-2xl
+                                bg-white
+                                text-slate-900
+                                flex
+                                items-center
+                                justify-center
+                                font-black
+                                text-xl
+                            "
+                        >
+                            C
+                        </div>
 
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-                <TextInput
-                    id="password_confirmation"
-                    v-model="form.password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    required
-                    autocomplete="new-password"
-                />
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
-            </div>
+                        <div>
+                            <h1
+                                class="
+                                    text-2xl
+                                    font-bold
+                                "
+                            >
+                                CoWorkly
+                            </h1>
 
-            <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
-                <InputLabel for="terms">
-                    <div class="flex items-center">
-                        <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />
-
-                        <div class="ms-2">
-                            I agree to the <a target="_blank" :href="route('terms.show')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terms of Service</a> and <a target="_blank" :href="route('policy.show')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Privacy Policy</a>
+                            <p
+                                class="
+                                    text-slate-300
+                                "
+                            >
+                                Reserva espacios inteligentes
+                            </p>
                         </div>
                     </div>
-                    <InputError class="mt-2" :message="form.errors.terms" />
-                </InputLabel>
+
+                    <h2
+                        class="
+                            text-5xl
+                            font-black
+                            leading-tight
+                        "
+                    >
+                        Crea tu cuenta
+                    </h2>
+
+                    <p
+                        class="
+                            text-slate-300
+                            mt-6
+                            text-lg
+                            leading-relaxed
+                            max-w-md
+                        "
+                    >
+                        Regístrate para
+                        comenzar a reservar
+                        espacios de coworking,
+                        salas y puestos
+                        de trabajo.
+                    </p>
+                </div>
+
+                <div
+                    class="
+                        relative z-10
+                        grid grid-cols-3
+                        gap-4
+                    "
+                >
+                    <div
+                        class="
+                            rounded-3xl
+                            bg-white/10
+                            p-5
+                        "
+                    >
+                        <h3
+                            class="
+                                text-2xl
+                                font-bold
+                            "
+                        >
+                            Moderno
+                        </h3>
+
+                        <p
+                            class="
+                                text-sm
+                                text-slate-300
+                            "
+                        >
+                            Acceso
+                        </p>
+                    </div>
+
+                    <div
+                        class="
+                            rounded-3xl
+                            bg-white/10
+                            p-5
+                        "
+                    >
+                        <h3
+                            class="
+                                text-2xl
+                                font-bold
+                            "
+                        >
+                            WiFi
+                        </h3>
+
+                        <p
+                            class="
+                                text-sm
+                                text-slate-300
+                            "
+                        >
+                            Rápido
+                        </p>
+                    </div>
+
+                    <div
+                        class="
+                            rounded-3xl
+                            bg-white/10
+                            p-5
+                        "
+                    >
+                        <h3
+                            class="
+                                text-2xl
+                                font-bold
+                            "
+                        >
+                            ☕
+                        </h3>
+
+                        <p
+                            class="
+                                text-sm
+                                text-slate-300
+                            "
+                        >
+                            Café
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Already registered?
-                </Link>
+            <!-- derecha -->
+            <div
+                class="
+                    p-10
+                    lg:p-16
+                    flex
+                    items-center
+                "
+            >
+                <div class="w-full">
 
-                <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
-                </PrimaryButton>
+                    <div class="mb-10">
+                        <h2
+                            class="
+                                text-4xl
+                                font-bold
+                                text-slate-900
+                            "
+                        >
+                            Crear cuenta
+                        </h2>
+
+                        <p
+                            class="
+                                text-slate-500
+                                mt-2
+                            "
+                        >
+                            Únete a CoWorkly
+                        </p>
+                    </div>
+
+                    <form
+                        @submit.prevent="
+                            submit
+                        "
+                        class="
+                            space-y-5
+                        "
+                    >
+                        <!-- nombre -->
+                        <div>
+                            <label
+                                class="
+                                    block
+                                    mb-2
+                                    text-sm
+                                    font-medium
+                                    text-slate-700
+                                "
+                            >
+                                Nombre completo
+                            </label>
+
+                            <input
+                                v-model="
+                                    form.name
+                                "
+                                type="text"
+                                required
+                                autofocus
+                                autocomplete="name"
+                                class="
+                                    w-full
+                                    rounded-2xl
+                                    border
+                                    border-slate-300
+                                    px-5
+                                    py-4
+                                    focus:border-blue-900
+                                    focus:ring-blue-900
+                                "
+                            >
+
+                            <p
+                                v-if="
+                                    form.errors.name
+                                "
+                                class="
+                                    text-red-500
+                                    text-sm
+                                    mt-2
+                                "
+                            >
+                                {{
+                                    form.errors.name
+                                }}
+                            </p>
+                        </div>
+
+                        <!-- email -->
+                        <div>
+                            <label
+                                class="
+                                    block
+                                    mb-2
+                                    text-sm
+                                    font-medium
+                                    text-slate-700
+                                "
+                            >
+                                Correo electrónico
+                            </label>
+
+                            <input
+                                v-model="
+                                    form.email
+                                "
+                                type="email"
+                                required
+                                autocomplete="username"
+                                class="
+                                    w-full
+                                    rounded-2xl
+                                    border
+                                    border-slate-300
+                                    px-5
+                                    py-4
+                                "
+                            >
+                        </div>
+
+                        <!-- password -->
+                        <div>
+                            <label
+                                class="
+                                    block
+                                    mb-2
+                                    text-sm
+                                    font-medium
+                                    text-slate-700
+                                "
+                            >
+                                Contraseña
+                            </label>
+
+                            <input
+                                v-model="
+                                    form.password
+                                "
+                                type="password"
+                                required
+                                autocomplete="new-password"
+                                class="
+                                    w-full
+                                    rounded-2xl
+                                    border
+                                    border-slate-300
+                                    px-5
+                                    py-4
+                                "
+                            >
+                        </div>
+
+                        <!-- confirm -->
+                        <div>
+                            <label
+                                class="
+                                    block
+                                    mb-2
+                                    text-sm
+                                    font-medium
+                                    text-slate-700
+                                "
+                            >
+                                Confirmar contraseña
+                            </label>
+
+                            <input
+                                v-model="
+                                    form.password_confirmation
+                                "
+                                type="password"
+                                required
+                                autocomplete="new-password"
+                                class="
+                                    w-full
+                                    rounded-2xl
+                                    border
+                                    border-slate-300
+                                    px-5
+                                    py-4
+                                "
+                            >
+                        </div>
+
+                        <!-- terms -->
+                        <div
+                            v-if="
+                                $page.props.jetstream.hasTermsAndPrivacyPolicyFeature
+                            "
+                            class="
+                                flex
+                                items-start
+                                gap-3
+                            "
+                        >
+                            <input
+                                v-model="
+                                    form.terms
+                                "
+                                type="checkbox"
+                                required
+                                class="
+                                    mt-1
+                                    rounded
+                                "
+                            >
+
+                            <div
+                                class="
+                                    text-sm
+                                    text-slate-600
+                                "
+                            >
+                                Acepto los
+
+                                <a
+                                    target="_blank"
+                                    :href="
+                                        route(
+                                            'terms.show'
+                                        )
+                                    "
+                                    class="
+                                        text-blue-900
+                                        font-medium
+                                    "
+                                >
+                                    Términos del servicio
+                                </a>
+
+                                y la
+
+                                <a
+                                    target="_blank"
+                                    :href="
+                                        route(
+                                            'policy.show'
+                                        )
+                                    "
+                                    class="
+                                        text-blue-900
+                                        font-medium
+                                    "
+                                >
+                                    Política de privacidad
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- actions -->
+                        <div
+                            class="
+                                flex
+                                items-center
+                                justify-between
+                                pt-4
+                            "
+                        >
+                            <Link
+                                :href="
+                                    route(
+                                        'login'
+                                    )
+                                "
+                                class="
+                                    text-sm
+                                    text-slate-600
+                                    hover:text-slate-900
+                                "
+                            >
+                                ¿Ya tienes cuenta?
+                            </Link>
+
+                            <button
+                                type="submit"
+                                :disabled="
+                                    form.processing
+                                "
+                                class="
+                                    bg-blue-900
+                                    hover:bg-blue-800
+                                    text-white
+                                    px-8
+                                    py-4
+                                    rounded-2xl
+                                    transition
+                                    font-semibold
+                                    shadow-lg
+                                "
+                            >
+                                Crear cuenta
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
             </div>
-        </form>
-    </AuthenticationCard>
+        </div>
+    </div>
 </template>

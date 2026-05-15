@@ -257,7 +257,14 @@ class SpaceController extends Controller
             'is_active' => !$space->is_active
         ]);
 
-        return redirect('/spaces');
+        return redirect()
+            ->route(
+                'admin.spaces.index'
+            )
+            ->with(
+                'success',
+                'Espacio actualizado correctamente.'
+            );
     }
 
     public function show(
