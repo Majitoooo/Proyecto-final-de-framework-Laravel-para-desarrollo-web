@@ -217,7 +217,19 @@ Route::middleware([
         ]
     )->name(
         'spaces.toggle'
+        
     );
+
+    Route::delete(
+        '/spaces/{space:slug}',
+        [
+            AdminSpaceController::class,
+            'destroy'
+        ]
+    )->name(
+        'spaces.destroy'
+    );
+    
     /*
     |--------------------------------------------------------------------------
     | Bloqueos de horarios

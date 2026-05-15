@@ -267,6 +267,58 @@ class SpaceController extends Controller
             );
     }
 
+    public function destroy(
+        Space $space
+    )
+    {
+        // validar si tiene reservas
+        if (
+            $space
+                ->reservations()
+                ->exists()
+        ) {
+
+            return redirect()
+                ->route(
+                    'admin.spaces.index'
+                )
+                ->with(
+                    'error',
+                    'No puedes eliminar un espacio con reservas asociadas.'
+                );
+        }
+
+        // eliminar imagen
+        if (
+            $space->image
+            &&
+            \Storage::disk(
+                'public'
+            )->exists(
+                $space->image
+            )
+        ) {
+
+            \Storage::disk(
+                'public'
+            )->delete(
+                $space->image
+            );
+        }
+
+        // eliminar espacio
+        $space->delete();
+
+        return redirect()
+            ->route(
+                'admin.spaces.index'
+            )
+            ->with(
+                'success',
+                'Espacio eliminado exitosamente.'
+            );
+    }
+
     public function show(
         Request $request,
         Space $space,

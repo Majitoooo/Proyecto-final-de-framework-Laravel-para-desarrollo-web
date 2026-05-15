@@ -4,155 +4,510 @@ import { Link } from '@inertiajs/vue3'
 
 defineOptions({ layout: AppLayout })
 
-defineProps({
-    spaces: Array
-})
+defineProps({ spaces: Array })
 
 const typeIcons = {
-    sala: '🏢',
-    oficina: '💼',
-    auditorio: '🎭',
-    cabina: '🎙️',
-    terraza: '🌿',
+    sala: '🏢', oficina: '💼', auditorio: '🎭', cabina: '🎙️', terraza: '🌿',
 }
-
 const getIcon = (type) => typeIcons[type?.toLowerCase()] ?? '📍'
+
+const placeholderGrads = [
+    'linear-gradient(135deg,#0f0c29,#302b63,#24243e)',
+    'linear-gradient(135deg,#0d2818,#1a472a,#2d6a4f)',
+    'linear-gradient(135deg,#1a0533,#3b0764,#4c1d95)',
+    'linear-gradient(135deg,#1c0a0a,#7f1d1d,#991b1b)',
+    'linear-gradient(135deg,#0c1a2e,#1e3a5f,#1e40af)',
+    'linear-gradient(135deg,#111827,#1f2937,#374151)',
+]
+const getGrad = (i) => placeholderGrads[i % placeholderGrads.length]
+
+const formatPrice = (p) => {
+    const n = Number(p)
+    return n % 1 === 0
+        ? n.toLocaleString('es-CO')
+        : n.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
+}
 </script>
 
 <template>
-    <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <div class="min-h-screen bg-white">
 
-        <!-- HEADER -->
-        <div class="relative mb-10 overflow-hidden rounded-[32px] border border-white/70 bg-white/80 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl p-8 sm:p-10">
-            <div class="pointer-events-none absolute inset-0">
-                <div class="absolute -top-20 right-0 h-72 w-72 rounded-full bg-fuchsia-200/40 blur-3xl"></div>
-                <div class="absolute bottom-0 left-0 h-56 w-56 rounded-full bg-sky-200/35 blur-3xl"></div>
-                <div class="absolute inset-0 bg-[linear-gradient(to_bottom_right,rgba(255,255,255,0.65),rgba(248,250,252,0.92))]"></div>
-            </div>
-
-            <div class="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                    <div class="mb-3 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                        Disponibles ahora
-                    </div>
-                    <h1 class="text-4xl font-bold tracking-[-0.04em] text-slate-900 sm:text-5xl">
-                        Espacios
-                    </h1>
-                    <p class="mt-2 text-slate-500">
-                        Encuentra el espacio ideal para tu jornada de trabajo.
-                    </p>
-                </div>
-
-                <div class="shrink-0 text-sm font-medium text-slate-400">
-                    {{ spaces?.length ?? 0 }} espacio{{ spaces?.length !== 1 ? 's' : '' }} disponible{{ spaces?.length !== 1 ? 's' : '' }}
-                </div>
-            </div>
-        </div>
-
-        <!-- GRID DE ESPACIOS -->
-        <div
-            v-if="spaces?.length"
-            class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3"
+        <!-- HERO -->
+        <section
+            class="
+                border-b
+                border-slate-200
+                bg-white
+            "
         >
             <div
-                v-for="space in spaces"
-                :key="space.id"
-                class="group relative overflow-hidden rounded-[28px] border border-white/70 bg-white/85 shadow-[0_12px_40px_rgba(15,23,42,0.07)] backdrop-blur-xl transition duration-300 hover:shadow-[0_24px_60px_rgba(15,23,42,0.13)] hover:-translate-y-1 dark:bg-slate-800/85 dark:border-slate-700/50"
+                class="
+                    mx-auto
+                    max-w-7xl
+                    px-6
+                    lg:px-10
+                    py-16
+                "
             >
-                <!-- Decoración interna -->
-                <div class="pointer-events-none absolute inset-0">
-                    <div class="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-indigo-100/60 blur-2xl opacity-0 transition duration-500 group-hover:opacity-100"></div>
-                </div>
-
-                 <!-- IMAGEN PRINCIPAL -->
-                 <div class="relative h-64 w-full overflow-hidden bg-slate-100 dark:bg-slate-900">
-                     <img
-                         v-if="space.image"
-                         :src="`/storage/${space.image}`"
-                         :alt="space.name"
-                         class="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                     >
-                     <div
-                         v-else
-                         class="h-full w-full flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-700 dark:from-slate-800 dark:via-slate-900 dark:to-indigo-900"
-                     >
-                         <span class="text-7xl">{{ getIcon(space.type) }}</span>
-                     </div>
-                     <!-- Badge flotante sobre la imagen -->
-                     <div class="absolute top-3 right-3">
-                         <div class="flex h-8 w-8 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-white/50 dark:bg-slate-800/90 dark:border-slate-600">
-                             <span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
-                         </div>
-                     </div>
-                 </div>
-
-                  <!-- Cabecera de la card -->
-                  <div class="relative px-6 pb-6">
-                      <div class="mt-4 flex items-start justify-between">
-                          <div class="flex-1 space-y-1">
-                              <h2 class="text-2xl font-bold tracking-[-0.02em] text-slate-900 leading-tight dark:text-slate-100">
-                                  {{ space.name }}
-                              </h2>
-                              <div class="flex items-center gap-2 flex-wrap">
-                                  <span class="inline-block rounded-full bg-indigo-50 px-3 py-1 text-sm font-semibold capitalize text-indigo-600 border border-indigo-100 dark:bg-indigo-900/40 dark:text-indigo-300 dark:border-indigo-800">
-                                      {{ space.type }}
-                                  </span>
-                                  <span class="flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600 dark:bg-slate-700 dark:text-slate-300">
-                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5">
-                                          <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z" />
-                                      </svg>
-                                      {{ space.capacity }} personas
-                                  </span>
-                              </div>
-                          </div>
-
-                          <!-- Precio badge -->
-                          <div class="shrink-0 -mt-1 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-4 py-2 rounded-xl shadow-md dark:from-pink-600 dark:to-rose-600">
-                              <div class="text-2xl font-bold tracking-tight">
-                                  ${{ space.price_per_hour }}
-                              </div>
-                              <div class="text-[10px] uppercase tracking-wider opacity-90">/ hora</div>
-                          </div>
-                      </div>
-
-                <!-- Info -->
-                <div class="relative px-6 pt-4">
-                    <p
-                        v-if="space.description"
-                        class="mb-5 line-clamp-2 text-sm leading-relaxed text-slate-500"
+                <div
+                    class="
+                        flex
+                        flex-col
+                        lg:flex-row
+                        lg:items-end
+                        lg:justify-between
+                        gap-8
+                    "
+                >
+                    <!-- Left -->
+                    <div
+                        class="
+                            max-w-3xl
+                        "
                     >
-                        {{ space.description }}
-                    </p>
+                        <p
+                            class="
+                                text-sm
+                                uppercase
+                                tracking-[0.25em]
+                                font-bold
+                                text-slate-400
+                                mb-4
+                            "
+                        >
+                            CoWorkly
+                        </p>
 
+                        <h1
+                            class="
+                                text-5xl
+                                md:text-6xl
+                                font-black
+                                tracking-tight
+                                leading-[0.95]
+                                text-slate-900
+                            "
+                        >
+                            Espacios
+                            disponibles
+                        </h1>
 
-                <!-- CTA PRINCIPAL -->
-                <div class="mt-5">
-                    <Link
-                        :href="`/spaces/${space.slug}`"
-                        class="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-slate-900 to-slate-800 px-5 py-4 text-sm font-semibold text-white shadow-lg transition duration-300 hover:from-slate-800 hover:to-slate-900 group-hover:shadow-xl hover:shadow-xl dark:from-slate-100 dark:to-slate-200 dark:text-slate-900 dark:hover:from-slate-50 dark:hover:to-slate-100"
+                        <p
+                            class="
+                                mt-5
+                                text-lg
+                                text-slate-500
+                                leading-relaxed
+                                max-w-2xl
+                            "
+                        >
+                            Encuentra el
+                            lugar ideal para
+                            trabajar, reunirte
+                            o impulsar tus ideas
+                            en un entorno
+                            profesional.
+                        </p>
+                    </div>
+
+                    <!-- Right -->
+                    <div
+                        class="
+                            flex
+                            items-end
+                            gap-4
+                        "
                     >
-                        Ver espacio y reservar
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4 transition duration-300 group-hover:translate-x-0.5">
-                            <path fill-rule="evenodd" d="M3 10a.75.75 0 0 1 .75-.75h10.638L10.23 5.29a.75.75 0 1 1 1.04-1.08l5.5 5.25a.75.75 0 0 1 0 1.08l-5.5 5.25a.75.75 0 1 1-1.04-1.08l4.158-3.96H3.75A.75.75 0 0 1 3 10Z" clip-rule="evenodd" />
-                        </svg>
-                    </Link>
-                </div>
+                        <div
+                            class="
+                                text-right
+                            "
+                        >
+                            <p
+                                class="
+                                    text-5xl
+                                    font-black
+                                    text-slate-900
+                                    leading-none
+                                "
+                            >
+                                {{
+                                    String(
+                                        spaces?.length ?? 0
+                                    ).padStart(
+                                        2,
+                                        '0'
+                                    )
+                                }}
+                            </p>
+
+                            <p
+                                class="
+                                    mt-2
+                                    text-sm
+                                    text-slate-400
+                                    font-medium
+                                "
+                            >
+                                espacios disponibles
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        </div>
+        </section>
 
-        <!-- ESTADO VACÍO -->
-        <div
-            v-else
-            class="flex flex-col items-center justify-center rounded-[32px] border border-white/70 bg-white/80 py-24 shadow-[0_20px_60px_rgba(15,23,42,0.06)] backdrop-blur-xl"
+        <!-- SPACES -->
+        <section
+            v-if="spaces?.length"
+            class="
+                mx-auto
+                max-w-7xl
+                px-6
+                lg:px-10
+                py-16
+            "
         >
-            <div class="mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-slate-100 text-4xl">
+            <div
+                class="
+                    grid
+                    md:grid-cols-2
+                    xl:grid-cols-3
+                    gap-8
+                "
+            >
+                <Link
+                    v-for="(space, index) in spaces"
+                    :key="space.id"
+                    :href="`/spaces/${space.slug}`"
+                    class="
+                        group
+                        overflow-hidden
+                        rounded-[34px]
+                        border
+                        border-slate-200
+                        bg-white
+                        shadow-sm
+                        hover:shadow-2xl
+                        hover:-translate-y-2
+                        transition-all
+                        duration-500
+                    "
+                >
+                    <!-- IMAGE -->
+                    <div
+                        class="
+                            relative
+                            h-[280px]
+                            overflow-hidden
+                        "
+                    >
+                        <img
+                            v-if="space.image"
+                            :src="`/storage/${space.image}`"
+                            :alt="space.name"
+                            class="
+                                h-full
+                                w-full
+                                object-cover
+                                transition
+                                duration-700
+                                group-hover:scale-[1.08]
+                            "
+                        >
+
+                        <div
+                            v-else
+                            class="
+                                h-full
+                                flex
+                                items-center
+                                justify-center
+                            "
+                            :style="
+                                `background:${getGrad(index)}`
+                            "
+                        >
+                            <span
+                                class="
+                                    text-8xl
+                                "
+                            >
+                                {{
+                                    getIcon(
+                                        space.type
+                                    )
+                                }}
+                            </span>
+                        </div>
+
+                        <!-- overlay -->
+                        <div
+                            class="
+                                absolute
+                                inset-0
+                                bg-gradient-to-t
+                                from-black/40
+                                via-transparent
+                                to-transparent
+                            "
+                        />
+
+                        <!-- available -->
+                        <div
+                            class="
+                                absolute
+                                top-5
+                                left-5
+                                rounded-full
+                                bg-white/95
+                                backdrop-blur-md
+                                px-4
+                                py-2
+                                shadow-lg
+                            "
+                        >
+                            <div
+                                class="
+                                    flex
+                                    items-center
+                                    gap-2
+                                "
+                            >
+                                <span
+                                    class="
+                                        h-2
+                                        w-2
+                                        rounded-full
+                                        bg-emerald-500
+                                    "
+                                />
+
+                                <span
+                                    class="
+                                        text-xs
+                                        font-bold
+                                        text-slate-700
+                                    "
+                                >
+                                    Disponible ahora
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- type -->
+                        <div
+                            class="
+                                absolute
+                                top-5
+                                right-5
+                                rounded-full
+                                bg-black/70
+                                px-4
+                                py-2
+                                backdrop-blur-md
+                            "
+                        >
+                            <span
+                                class="
+                                    text-xs
+                                    font-bold
+                                    uppercase
+                                    text-white
+                                "
+                            >
+                                {{
+                                    space.type
+                                }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- BODY -->
+                    <div
+                        class="
+                            p-7
+                        "
+                    >
+                        <h2
+                            class="
+                                text-2xl
+                                font-black
+                                text-slate-900
+                                tracking-tight
+                            "
+                        >
+                            {{
+                                space.name
+                            }}
+                        </h2>
+
+                        <p
+                            v-if="
+                                space.description
+                            "
+                            class="
+                                mt-4
+                                text-slate-500
+                                leading-relaxed
+                                line-clamp-3
+                                min-h-[72px]
+                            "
+                        >
+                            {{
+                                space.description
+                            }}
+                        </p>
+
+                        <div
+                            class="
+                                mt-6
+                                flex
+                                items-center
+                                justify-between
+                            "
+                        >
+                            <div>
+                                <p
+                                    class="
+                                        text-sm
+                                        text-slate-400
+                                    "
+                                >
+                                    Desde
+                                </p>
+
+                                <p
+                                    class="
+                                        text-3xl
+                                        font-black
+                                        text-slate-900
+                                        leading-none
+                                    "
+                                >
+                                    $
+                                    {{
+                                        formatPrice(
+                                            space.price_per_hour
+                                        )
+                                    }}
+                                </p>
+
+                                <span
+                                    class="
+                                        text-sm
+                                        text-slate-400
+                                    "
+                                >
+                                    /hora
+                                </span>
+                            </div>
+
+                            <div
+                                class="
+                                    text-right
+                                "
+                            >
+                                <p
+                                    class="
+                                        text-sm
+                                        text-slate-400
+                                    "
+                                >
+                                    Capacidad
+                                </p>
+
+                                <p
+                                    class="
+                                        text-lg
+                                        font-bold
+                                        text-slate-700
+                                    "
+                                >
+                                    {{
+                                        space.capacity
+                                    }}
+                                    {{
+                                        space.capacity === 1
+                                            ? 'persona'
+                                            : 'personas'
+                                    }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- CTA -->
+                        <div
+                            class="
+                                mt-7
+                            "
+                        >
+                            <div
+                                class="
+                                    w-full
+                                    rounded-2xl
+                                    bg-slate-900
+                                    py-4
+                                    text-center
+                                    font-semibold
+                                    text-white
+                                    transition
+                                    group-hover:bg-black
+                                "
+                            >
+                                Ver espacio
+                            </div>
+                        </div>
+                    </div>
+                </Link>
+            </div>
+        </section>
+
+        <!-- EMPTY -->
+        <section
+            v-else
+            class="
+                py-40
+                text-center
+                px-6
+            "
+        >
+            <div
+                class="
+                    mx-auto
+                    flex
+                    h-24
+                    w-24
+                    items-center
+                    justify-center
+                    rounded-[32px]
+                    bg-slate-100
+                    text-5xl
+                "
+            >
                 🏢
             </div>
-            <h3 class="text-xl font-bold text-slate-800">Sin espacios disponibles</h3>
-            <p class="mt-2 text-slate-500">Vuelve pronto, estamos preparando nuevos espacios.</p>
-        </div>
+
+            <h2
+                class="
+                    mt-8
+                    text-3xl
+                    font-black
+                    text-slate-900
+                "
+            >
+                No hay espacios disponibles
+            </h2>
+
+            <p
+                class="
+                    mt-3
+                    text-slate-500
+                "
+            >
+                Estamos preparando nuevos espacios para ti.
+            </p>
+        </section>
+
     </div>
 </template>

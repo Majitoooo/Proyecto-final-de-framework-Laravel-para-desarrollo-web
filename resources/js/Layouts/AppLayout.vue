@@ -162,30 +162,39 @@ const toggleDarkMode = () => {
                                             dark:bg-slate-800
                                         "
                                     >
-                                        <ApplicationMark
-                                            class="h-6 w-auto text-white"
-                                        />
+                                            <span
+                                                class="
+                                                    text-white
+                                                    font-black
+                                                    text-xl
+                                                "
+                                            >
+                                                C
+                                            </span>
                                     </div>
 
                                     <div class="hidden sm:block">
                                         <h1
                                             class="
-                                                text-sm
-                                                font-bold
+                                                text-lg
+                                                font-black
                                                 tracking-tight
+                                                text-slate-900
+                                                dark:text-white
                                             "
                                         >
-                                            Coworking Reserve
+                                            CoWorkly
                                         </h1>
 
                                         <p
                                             class="
                                                 text-xs
+                                                font-medium
                                                 text-slate-500
                                                 dark:text-slate-400
                                             "
                                         >
-                                            Workspace management
+                                            Reserva espacios inteligentes
                                         </p>
                                     </div>
                                 </Link>

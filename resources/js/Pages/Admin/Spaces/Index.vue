@@ -8,6 +8,26 @@ const props = defineProps({
 
 const toggleSpace = (slug) => router.patch(`/admin/spaces/${slug}/toggle`)
 
+const deleteSpace = (
+    slug
+) => {
+
+    if (
+        !confirm(
+            '¿Seguro que deseas eliminar este espacio?'
+        )
+    ) {
+        return
+    }
+
+    router.delete(
+        route(
+            'spaces.destroy',
+            slug
+        )
+    )
+}
+
 defineOptions({ layout: AppLayout })
 </script>
 
@@ -158,6 +178,41 @@ defineOptions({ layout: AppLayout })
                                         </svg>
                                         {{ space.is_active ? 'Desactivar' : 'Activar' }}
                                     </button>
+                                    <button
+                                        @click="
+                                            deleteSpace(
+                                                space.slug
+                                            )
+                                        "
+                                        class="
+                                            action-btn
+                                            inline-flex
+                                            items-center
+                                            gap-1.5
+                                            rounded-lg
+                                            px-2.5
+                                            py-1.5
+                                            text-xs
+                                            font-semibold
+                                            transition-colors
+                                            action-delete
+                                        "
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 16 16"
+                                            fill="currentColor"
+                                            class="h-3.5 w-3.5"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M6.5 1.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75V2H12a.75.75 0 0 1 0 1.5h-.538l-.853 9.102A1.75 1.75 0 0 1 8.866 14H7.134a1.75 1.75 0 0 1-1.743-1.398L4.538 3.5H4a.75.75 0 0 1 0-1.5h2.5v-.25Z"
+                                                clip-rule="evenodd"
+                                            />
+                                        </svg>
+
+                                        Eliminar
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -248,6 +303,29 @@ defineOptions({ layout: AppLayout })
                                 <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.396-6.737a.75.75 0 0 0 0-1.269l-4.5-2.6A.75.75 0 0 0 5.75 5v5.201a.75.75 0 0 0 1.146.634l4.5-2.572Z" clip-rule="evenodd"/>
                             </svg>
                             {{ space.is_active ? 'Desactivar' : 'Activar' }}
+                        </button>
+                        <button
+                            @click="
+                                deleteSpace(
+                                    space.slug
+                                )
+                            "
+                            class="
+                                action-btn
+                                action-delete
+                                inline-flex
+                                items-center
+                                gap-1.5
+                                rounded-lg
+                                px-3
+                                py-1.5
+                                text-xs
+                                font-semibold
+                                transition-colors
+                            "
+                        >
+                            🗑️
+                            Eliminar
                         </button>
                     </div>
                 </div>
@@ -356,6 +434,15 @@ defineOptions({ layout: AppLayout })
 .action-activate       { background: #ECFDF5; color: #065F46; }
 .action-activate:hover { background: #D1FAE5; }
 
+.action-delete {
+    background: #FEF2F2;
+    color: #991B1B;
+}
+
+.action-delete:hover {
+    background: #FEE2E2;
+}
+
 @media (prefers-color-scheme: dark) {
     .action-edit       { background: rgba(59,130,246,0.12); color: #93C5FD; }
     .action-edit:hover { background: rgba(59,130,246,0.2); }
@@ -371,6 +458,28 @@ defineOptions({ layout: AppLayout })
 
     .action-activate       { background: rgba(52,211,153,0.1); color: #6EE7B7; }
     .action-activate:hover { background: rgba(52,211,153,0.18); }
+
+    .action-delete {
+        background:
+            rgba(
+                239,
+                68,
+                68,
+                0.1
+            );
+
+        color: #FCA5A5;
+    }
+
+    .action-delete:hover {
+        background:
+            rgba(
+                239,
+                68,
+                68,
+                0.18
+            );
+}
 }
 
 /* ── Mobile cards ────────────────────────────────────────────────────────── */
