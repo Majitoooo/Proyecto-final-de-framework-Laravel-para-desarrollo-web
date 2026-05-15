@@ -16,6 +16,7 @@ class Reservation extends Model
         'user_email',
         'notes',
         'admin_reason',
+        'user_id',
     ];
 
     protected $casts = [
@@ -26,6 +27,13 @@ class Reservation extends Model
     public function space()
     {
         return $this->belongsTo(Space::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(
+            User::class
+        );
     }
 
     public function review()

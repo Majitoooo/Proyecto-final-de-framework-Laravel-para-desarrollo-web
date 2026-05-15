@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\BlockedSlotController;
 use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MyReservationController;
+use App\Http\Controllers\CalendarPublicController;
 
 /*
 |--------------------------------------------------------------------------
@@ -271,3 +273,28 @@ Route::get(
         );
     }
 )->name('dashboard');
+
+Route::middleware(
+    ['auth']
+)->group(function () {
+
+    Route::get(
+        '/my-reservations',
+        [
+            MyReservationController::class,
+            'index'
+        ]
+    )->name(
+        'my.reservations'
+    );
+});
+
+Route::get(
+    '/calendar',
+    [
+        CalendarPublicController::class,
+        'show'
+    ]
+)->name(
+    'calendar.public'
+);

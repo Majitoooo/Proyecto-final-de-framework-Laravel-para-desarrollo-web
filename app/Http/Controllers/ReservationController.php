@@ -8,6 +8,7 @@ use App\Models\Space;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ReservationPendingMail;
+use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
@@ -22,15 +23,23 @@ class ReservationController extends Controller
 
     public function create(Request $request)
     {
-        $space = Space::findOrFail($request->space_id);
+        $space = Space::find($request->space_id);
+
+        if (!$space) {
+            return redirect()->back()
+                ->with('error', 'Espacio no encontrado');
+        }
+
+        $startTime = $request->start_time;
+
+        $endTime = Carbon::parse($startTime)
+            ->addHour()
+            ->toDateTimeString();
 
         return Inertia::render('Reservations/Create', [
-
             'space' => $space,
-
-            'start_time' => $request->start_time,
-
-            'end_time' => $request->end_time,
+            'start_time' => $startTime,
+            'end_time' => $endTime,
         ]);
     }
 
@@ -53,6 +62,20 @@ class ReservationController extends Controller
                 'notes' => 'nullable|string',
             ]);
 
+            if (
+                auth()->check()
+            ) {
+
+                $data['user_id'] =
+                    auth()->id();
+
+                $data['user_name'] =
+                    auth()->user()->name;
+
+                $data['user_email'] =
+                    auth()->user()->email;
+            }
+
             $reservation =
                 $this
                     ->reservationService
@@ -73,7 +96,10 @@ class ReservationController extends Controller
 
             $space = Space::find($data['space_id']);
 
-            return redirect('/spaces/' . $space->slug)
+            return redirect()
+                ->route(
+                    'my.reservations'
+                )
                 ->with(
                     'success',
                     'Reserva creada exitosamente'

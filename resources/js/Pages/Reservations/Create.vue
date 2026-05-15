@@ -3,15 +3,18 @@ import { useForm } from '@inertiajs/vue3'
 import AppLayout from '@/Layouts/AppLayout.vue'
 
 const props = defineProps({
-    space: Object,
+    space: {
+        type: Object,
+        default: () => ({})
+    },
     start_time: String,
     end_time: String,
 })
 
 const form = useForm({
-    space_id: props.space.id,
-    start_time: props.start_time,
-    end_time: props.end_time,
+    space_id: props.space?.id ?? '',
+    start_time: props.start_time ?? '',
+    end_time: props.end_time ?? '',
     user_name: '',
     user_email: '',
     notes: '',

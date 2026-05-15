@@ -206,6 +206,27 @@ const toggleDarkMode = () => {
                                         >
                                             Espacios
                                         </NavLink>
+
+                                        <NavLink
+                                            :href="
+                                                route(
+                                                    'my.reservations'
+                                                )
+                                            "
+                                        >
+                                            Mis reservas
+                                        </NavLink>
+
+                                        <NavLink
+                                            :href="
+                                                route(
+                                                    'calendar.public'
+                                                )
+                                            "
+                                        >
+                                            Disponibilidad
+                                        </NavLink>
+                                        
                                     </template>
 
                                     <!-- ADMIN -->

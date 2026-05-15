@@ -64,14 +64,41 @@ class ReservationService
         }
 
         // 4. Crear
-        return Reservation::create([
-            'space_id' => $spaceId,
-            'start_time' => $start,
-            'end_time' => $end,
-            'status' => 'pending',
-            'user_name' => $data['user_name'],
-            'user_email' => $data['user_email'],
-            'notes' => $data['notes'] ?? null,
+       return Reservation::create([
+
+            'user_id'
+                =>
+                $data['user_id']
+                ?? null,
+
+            'space_id'
+                =>
+                $spaceId,
+
+            'start_time'
+                =>
+                $start,
+
+            'end_time'
+                =>
+                $end,
+
+            'status'
+                =>
+                'pending',
+
+            'user_name'
+                =>
+                $data['user_name'],
+
+            'user_email'
+                =>
+                $data['user_email'],
+
+            'notes'
+                =>
+                $data['notes']
+                ?? null,
         ]);
     }
 
