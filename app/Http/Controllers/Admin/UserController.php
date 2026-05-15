@@ -40,23 +40,61 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(
+        Request $request
+    ) {
+
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:user,admin'],
+            'name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
+
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                'unique:users'
+            ],
+
+            'password' => [
+                'required',
+                'confirmed',
+                Rules\Password::defaults()
+            ],
+
+            'role' => [
+                'required',
+                'in:user,admin'
+            ],
         ]);
 
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
+            'name' =>
+                $request->name,
+
+            'email' =>
+                $request->email,
+
+            'password' =>
+                Hash::make(
+                    $request->password
+                ),
+
+            'role' =>
+                $request->role,
         ]);
 
-        return redirect()->route('admin.users.index')->with('success', 'Usuario creado exitosamente.');
+        return redirect()
+            ->route(
+                'users.index'
+            )
+            ->with(
+                'success',
+                'Usuario creado exitosamente.'
+            );
     }
 
     /**
@@ -95,7 +133,7 @@ class UserController extends Controller
             'role' => $request->role,
         ]);
 
-        return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado exitosamente.');
+        return redirect()->route('users.index')->with('success', 'Usuario actualizado exitosamente.');
     }
 
     /**
@@ -108,12 +146,12 @@ class UserController extends Controller
     {
         // Prevent deleting the currently authenticated user
         if ($user->id === auth()->id()) {
-            return redirect()->route('admin.users.index')->with('error', 'No puedes eliminar tu propio usuario.');
+            return redirect()->route('users.index')->with('error', 'No puedes eliminar tu propio usuario.');
         }
 
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado exitosamente.');
+        return redirect()->route('users.index')->with('success', 'Usuario eliminado exitosamente.');
     }
 
     /**
@@ -126,13 +164,13 @@ class UserController extends Controller
     {
         // Prevent changing role of the currently authenticated user
         if ($user->id === auth()->id()) {
-            return redirect()->route('admin.users.index')->with('error', 'No puedes cambiar tu propio rol.');
+            return redirect()->route('users.index')->with('error', 'No puedes cambiar tu propio rol.');
         }
 
         $user->update([
             'role' => $user->role === 'admin' ? 'user' : 'admin',
         ]);
 
-        return redirect()->route('admin.users.index')->with('success', 'Rol de usuario actualizado exitosamente.');
+        return redirect()->route('users.index')->with('success', 'Rol de usuario actualizado exitosamente.');
     }
 }

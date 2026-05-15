@@ -50,15 +50,6 @@ const getSlotInfo = (
                 Number(dayOfWeek)
         )
 
-    console.log(
-        'día:',
-        day,
-        'js:',
-        dayOfWeek,
-        'availability:',
-        availability
-    )
-
     if (
         !availability
     ) {
