@@ -14,15 +14,15 @@ class SpaceController extends Controller
 {
     public function index()
     {
-        $spaces = Space::where(
-            'is_active',
-            true
-        )->get();
+        $spaces =
+            Space::latest()
+                ->get();
 
         return Inertia::render(
-            'Spaces/Index',
+            'Admin/Spaces/Index',
             [
-                'spaces' => $spaces
+                'spaces'
+                    => $spaces
             ]
         );
     }

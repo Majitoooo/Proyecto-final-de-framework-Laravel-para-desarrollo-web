@@ -9,13 +9,16 @@ use App\Models\Reservation;
 
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
-use App\Http\Controllers\Admin\SpaceController;
+use App\Http\Controllers\Admin\SpaceController
+as AdminSpaceController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\BlockedSlotController;
 use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MyReservationController;
 use App\Http\Controllers\CalendarPublicController;
+use App\Http\Controllers\SpaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -150,40 +153,71 @@ Route::middleware([
 
     /*
     |--------------------------------------------------------------------------
+    |/*
+    |--------------------------------------------------------------------------
     | Espacios admin
     |--------------------------------------------------------------------------
     */
 
     Route::get(
         '/spaces',
-        [SpaceController::class, 'adminIndex']
-    )->name('admin.spaces.index');
+        [
+            AdminSpaceController::class,
+            'index'
+        ]
+    )->name(
+        'admin.spaces.index'
+    );
 
     Route::get(
         '/spaces/create',
-        [SpaceController::class, 'create']
-    )->name('spaces.create');
+        [
+            AdminSpaceController::class,
+            'create'
+        ]
+    )->name(
+        'spaces.create'
+    );
 
     Route::post(
         '/spaces',
-        [SpaceController::class, 'store']
-    )->name('spaces.store');
+        [
+            AdminSpaceController::class,
+            'store'
+        ]
+    )->name(
+        'spaces.store'
+    );
 
     Route::get(
         '/spaces/{space:slug}/edit',
-        [SpaceController::class, 'edit']
-    )->name('spaces.edit');
+        [
+            AdminSpaceController::class,
+            'edit'
+        ]
+    )->name(
+        'spaces.edit'
+    );
 
     Route::put(
         '/spaces/{space:slug}',
-        [SpaceController::class, 'update']
-    )->name('spaces.update');
+        [
+            AdminSpaceController::class,
+            'update'
+        ]
+    )->name(
+        'spaces.update'
+    );
 
     Route::patch(
         '/spaces/{space:slug}/toggle',
-        [SpaceController::class, 'toggle']
-    )->name('spaces.toggle');
-
+        [
+            AdminSpaceController::class,
+            'toggle'
+        ]
+    )->name(
+        'spaces.toggle'
+    );
     /*
     |--------------------------------------------------------------------------
     | Bloqueos de horarios
@@ -220,6 +254,22 @@ Route::middleware([
         '/calendar',
         [CalendarController::class, 'show']
     )->name('admin.calendar.show');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Usuarios admin
+    |--------------------------------------------------------------------------
+    */
+
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::post('/', [UserController::class, 'store'])->name('store');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [UserController::class, 'update'])->name('update');
+        Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+        Route::patch('/{user}/toggle-role', [UserController::class, 'toggleRole'])->name('toggle.role');
+    });
 
     /*
     |--------------------------------------------------------------------------

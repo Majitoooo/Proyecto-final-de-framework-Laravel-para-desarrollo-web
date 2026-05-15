@@ -18,7 +18,13 @@ class CalendarPublicController
             Space::where(
                 'is_active',
                 true
-            )->get();
+            )
+            ->select([
+                'id',
+                'name',
+                'slug'
+            ])
+            ->get();
 
         $spaceId =
             $request->space_id;

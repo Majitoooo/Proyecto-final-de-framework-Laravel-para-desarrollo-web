@@ -29,31 +29,130 @@ const timeSlots = computed(() => {
 
 // ── Slot logic ───────────────────────────────────────────────────────────────
 
-const getSlotInfo = (day, hour) => {
-    const t = new Date(`${day}T${hour}:00`)
-    const dayOfWeek = t.getDay()
-    const availability = props.availabilities?.find(a => a.day_of_week === dayOfWeek)
+const getSlotInfo = (
+    day,
+    hour
+) => {
 
-    if (!availability) return { type: 'unavailable' }
+    const t =
+        new Date(
+            `${day}T${hour}:00`
+        )
 
-    const slotTime = hour + ':00'
-    if (slotTime < availability.start_time || slotTime >= availability.end_time)
-        return { type: 'unavailable' }
+    const dayOfWeek =
+        t.getDay()
 
-    const blocked = props.blockedSlots?.find(s =>
-        t >= new Date(s.start_time) && t < new Date(s.end_time)
+    const availability =
+        props.availabilities?.find(
+            a =>
+                Number(a.day_of_week)
+                ===
+                Number(dayOfWeek)
+        )
+
+    console.log(
+        'día:',
+        day,
+        'js:',
+        dayOfWeek,
+        'availability:',
+        availability
     )
-    if (blocked) return { type: 'blocked', data: blocked }
 
-    const reservation = props.reservations?.find(s =>
-        t >= new Date(s.start_time) && t < new Date(s.end_time)
-    )
-    if (reservation)
-        return reservation.status === 'rejected'
-            ? { type: 'available' }
-            : { type: 'reservation', data: reservation }
+    if (
+        !availability
+    ) {
+        return {
+            type:
+                'unavailable'
+        }
+    }
 
-    return { type: 'available' }
+        const slotHour =
+        parseInt(
+            hour.split(':')[0]
+        )
+
+    const startHour =
+        parseInt(
+            availability.start_time
+                .split(':')[0]
+        )
+
+    const endHour =
+        parseInt(
+            availability.end_time
+                .split(':')[0]
+        )
+
+    if (
+        slotHour <
+            startHour
+        ||
+        slotHour >=
+            endHour
+    ) {
+
+        return {
+            type:
+                'unavailable'
+        }
+    }
+
+    // bloqueos
+    const blocked =
+        props.blockedSlots?.find(
+            s =>
+                t >= new Date(s.start_time)
+                &&
+                t < new Date(s.end_time)
+        )
+
+    if (
+        blocked
+    ) {
+        return {
+            type:
+                'blocked',
+            data:
+                blocked
+        }
+    }
+
+    // reservas
+    const reservation =
+        props.reservations?.find(
+            s =>
+                t >= new Date(s.start_time)
+                &&
+                t < new Date(s.end_time)
+        )
+
+    if (
+        reservation
+    ) {
+
+        return reservation.status
+            ===
+            'rejected'
+
+            ? {
+                type:
+                    'available'
+            }
+
+            : {
+                type:
+                    'reservation',
+                data:
+                    reservation
+            }
+    }
+
+    return {
+        type:
+            'available'
+    }
 }
 
 // ── Selection & panel ────────────────────────────────────────────────────────
@@ -93,8 +192,27 @@ const isPastWeek = computed(() => {
     const we = new Date(ws); we.setDate(we.getDate() + 6); we.setHours(23, 59, 59, 999)
     return we < t
 })
-const isPastDay  = (day) => { const t = new Date(); t.setHours(0, 0, 0, 0); return new Date(day) < t }
-const isToday    = (day) => new Date(day).toDateString() === new Date().toDateString()
+
+const isPastDay = (day) => {
+    const t =
+        new Date()
+
+    t.setHours(
+        0,0,0,0
+    )
+
+    return new Date(
+        day + 'T12:00:00'
+    ) < t
+}
+
+const isToday = (day) =>
+    new Date(
+        day + 'T12:00:00'
+    ).toDateString()
+    ===
+    new Date()
+        .toDateString()
 
 const weekRange = computed(() => {
     if (!props.weekDays?.length) return props.currentWeek
@@ -375,7 +493,11 @@ defineOptions({ layout: AppLayout })
                                : isPastDay(day)
                                    ? 'day-past-label'
                                    : 'day-label'">
-                            {{ new Date(day).toLocaleDateString('es-CO', { weekday: 'short' }) }}
+                            {{ new Date(day + 'T12:00:00')
+                                .toLocaleDateString('es-CO', {
+                                    weekday: 'short'
+                                })
+                            }}
                         </p>
                         <div class="flex justify-center mt-1">
                             <div class="h-7 w-7 flex items-center justify-center rounded-full text-sm font-bold"
@@ -384,7 +506,9 @@ defineOptions({ layout: AppLayout })
                                      : isPastDay(day)
                                          ? 'day-past-num'
                                          : 'day-num'">
-                                {{ new Date(day).getDate() }}
+                                {{ new Date(day + 'T12:00:00')
+                                    .getDate()
+                                }}
                             </div>
                         </div>
                     </div>

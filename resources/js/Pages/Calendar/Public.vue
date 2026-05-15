@@ -18,11 +18,56 @@ const updateFilters = (event) => {
     )
 }
 
-const goToReservation = (slot) => {
-    router.get(route('reservations.create'), {
-        space_id: props.selectedSpaceId,
-        start_time: slot.full_start,
-    })
+const goToReservation = (
+    slot
+) => {
+
+    console.log(
+        'selectedSpaceId:',
+        props.selectedSpaceId
+    )
+
+    console.log(
+        'spaces:',
+        props.spaces
+    )
+
+    const selectedSpace =
+        props.spaces.find(
+            space =>
+                Number(space.id)
+                ===
+                Number(
+                    props.selectedSpaceId
+                )
+        )
+
+    console.log(
+        'selectedSpace:',
+        selectedSpace
+    )
+
+    if (
+        !selectedSpace
+    ) {
+
+        return
+    }
+
+    router.get(
+        route(
+            'spaces.show',
+            selectedSpace.slug
+        ),
+        {
+
+            start_time:
+                slot.full_start,
+
+            end_time:
+                slot.full_end
+        }
+    )
 }
 
 // Format "08:00" → "8:00 AM" style kept as-is since slots already come formatted
@@ -69,6 +114,7 @@ defineOptions({ layout: AppLayout })
                                 </div>
                                 <select
                                     name="space_id"
+                                    :value="selectedSpaceId"
                                     @change="updateFilters"
                                     class="appearance-none w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 pl-9 pr-9 py-2.5 text-sm font-medium text-slate-800 dark:text-white outline-none transition hover:border-slate-300 dark:hover:border-slate-600 focus:border-blue-400 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:focus:ring-blue-900"
                                 >
@@ -77,7 +123,6 @@ defineOptions({ layout: AppLayout })
                                         v-for="space in spaces"
                                         :key="space.id"
                                         :value="space.id"
-                                        :selected="selectedSpaceId == space.id"
                                     >
                                         {{ space.name }}
                                     </option>

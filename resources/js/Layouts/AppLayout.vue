@@ -262,6 +262,13 @@ const toggleDarkMode = () => {
                                         </NavLink>
 
                                         <NavLink
+                                            :href="route('users.index')"
+                                            :active="route().current('users.*')"
+                                        >
+                                            Usuarios
+                                        </NavLink>
+
+                                        <NavLink
                                             :href="route('spaces.create')"
                                             :active="route().current('spaces.create')"
                                         >
@@ -546,11 +553,17 @@ const toggleDarkMode = () => {
                                     Reservas
                                 </ResponsiveNavLink>
 
-                                <ResponsiveNavLink
-                                    :href="route('admin.calendar.show')"
-                                >
-                                    Calendario
-                                </ResponsiveNavLink>
+                                 <ResponsiveNavLink
+                                     :href="route('admin.calendar.show')"
+                                 >
+                                     Calendario
+                                 </ResponsiveNavLink>
+
+                                 <ResponsiveNavLink
+                                     :href="route('users.index')"
+                                 >
+                                     Usuarios
+                                 </ResponsiveNavLink>
                             </div>
                         </div>
                     </div>
