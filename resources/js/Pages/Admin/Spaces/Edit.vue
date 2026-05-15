@@ -44,6 +44,8 @@ const form = useForm({
     is_active:
         props.space.is_active,
 
+    image: null,
+
     availability: [
 
         getAvailability(1),
@@ -125,7 +127,7 @@ defineOptions({
 
         </div>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" enctype="multipart/form-data">
 
             <div class="mb-4">
 
@@ -136,7 +138,7 @@ defineOptions({
                 <input
                     v-model="form.name"
                     type="text"
-                    class="w-full border rounded p-2"
+                    class="w-full border rounded p-2 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
                 >
 
             </div>
@@ -150,7 +152,7 @@ defineOptions({
                 <input
                     v-model="form.type"
                     type="text"
-                    class="w-full border rounded p-2"
+                    class="w-full border rounded p-2 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
                 >
 
             </div>
@@ -164,7 +166,7 @@ defineOptions({
                 <input
                     v-model="form.capacity"
                     type="number"
-                    class="w-full border rounded p-2"
+                    class="w-full border rounded p-2 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
                 >
 
             </div>
@@ -177,7 +179,7 @@ defineOptions({
 
                 <textarea
                     v-model="form.description"
-                    class="w-full border rounded p-2"
+                    class="w-full border rounded p-2 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
                 ></textarea>
 
             </div>
@@ -190,7 +192,7 @@ defineOptions({
 
                 <textarea
                     v-model="form.usage_rules"
-                    class="w-full border rounded p-2"
+                    class="w-full border rounded p-2 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
                     rows="4"
                 ></textarea>
 
@@ -205,8 +207,37 @@ defineOptions({
                 <input
                     v-model="form.price_per_hour"
                     type="number"
-                    class="w-full border rounded p-2"
+                    class="w-full border rounded p-2 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
                 >
+
+            </div>
+
+            <div class="mb-4">
+
+                <label class="block mb-1">
+                    Imagen del espacio
+                </label>
+
+                <input
+                    type="file"
+                    class="w-full border rounded p-2 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
+                    accept="image/*"
+                    @change="(e) => form.image = e.target.files[0]"
+                >
+
+                <div
+                    v-if="space.image"
+                    class="mt-2"
+                >
+                    <p class="text-sm text-gray-600 mb-1 dark:text-slate-400">
+                        Imagen actual:
+                    </p>
+                    <img
+                        :src="`/storage/${space.image}`"
+                        alt="Imagen actual"
+                        class="w-48 h-32 object-cover rounded"
+                    >
+                </div>
 
             </div>
 
@@ -223,7 +254,7 @@ defineOptions({
                 <button
                     type="button"
                     @click="applyToAllDays"
-                    class="mb-4 bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 transition"
+                    class="mb-4 bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 dark:bg-pink-600 dark:hover:bg-pink-700"
                 >
                     Aplicar horario del lunes
                 </button>
@@ -253,13 +284,13 @@ defineOptions({
                     <input
                         v-model="day.start_time"
                         type="time"
-                        class="border rounded p-2"
+                        class="border rounded p-2 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
                     >
 
                     <input
                         v-model="day.end_time"
                         type="time"
-                        class="border rounded p-2"
+                        class="border rounded p-2 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-200"
                     >
 
                 </div>
@@ -285,7 +316,7 @@ defineOptions({
 
             <button
                 type="submit"
-                class="bg-blue-500 text-white px-4 py-2 rounded"
+                class="bg-blue-500 text-white px-4 py-2 rounded dark:bg-blue-600 dark:hover:bg-blue-700"
             >
                 Actualizar
             </button>

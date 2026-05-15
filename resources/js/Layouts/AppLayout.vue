@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 import {
     Head,
@@ -23,55 +23,176 @@ const showingNavigationDropdown = ref(false)
 const logout = () => {
     router.post(route('logout'))
 }
+
+/*
+|--------------------------------------------------------------------------
+| DARK MODE
+|--------------------------------------------------------------------------
+*/
+
+const darkMode = ref(false)
+
+onMounted(() => {
+    const savedTheme = localStorage.getItem('theme')
+
+    if (
+        savedTheme === 'dark'
+        ||
+        (
+            !savedTheme
+            &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches
+        )
+    ) {
+        darkMode.value = true
+        document.documentElement.classList.add('dark')
+    }
+})
+
+const toggleDarkMode = () => {
+    darkMode.value = !darkMode.value
+
+    if (darkMode.value) {
+        document.documentElement.classList.add('dark')
+        localStorage.setItem('theme', 'dark')
+    } else {
+        document.documentElement.classList.remove('dark')
+        localStorage.setItem('theme', 'light')
+    }
+}
 </script>
 
 <template>
-    <div class="relative min-h-screen overflow-hidden bg-[#f6f7fb] text-slate-900">
+    <div
+        class="
+            min-h-screen
+            bg-slate-50
+            text-slate-900
+            transition-colors
+            duration-300
+            dark:bg-[#0B1120]
+            dark:text-slate-100
+        "
+    >
         <Head :title="title" />
 
         <Banner />
 
-        <!-- Background luxury SaaS -->
-        <div class="pointer-events-none absolute inset-0">
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.10),transparent_28%),radial-gradient(circle_at_top_right,rgba(168,85,247,0.10),transparent_24%),radial-gradient(circle_at_bottom,rgba(14,165,233,0.08),transparent_30%)]"></div>
-            <div class="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.82),rgba(246,247,251,0.96))]"></div>
-            <div class="absolute -top-24 left-[-80px] h-72 w-72 rounded-full bg-indigo-200/40 blur-3xl"></div>
-            <div class="absolute top-10 right-[-60px] h-72 w-72 rounded-full bg-fuchsia-200/35 blur-3xl"></div>
-            <div class="absolute bottom-[-100px] left-1/3 h-80 w-80 rounded-full bg-sky-200/30 blur-3xl"></div>
+        <!-- BACKGROUND -->
+        <div class="pointer-events-none fixed inset-0 overflow-hidden">
+            <div
+                class="
+                    absolute
+                    left-[-120px]
+                    top-[-120px]
+                    h-[420px]
+                    w-[420px]
+                    rounded-full
+                    bg-sky-100/50
+                    blur-[120px]
+                    dark:bg-sky-900/10
+                "
+            />
+
+            <div
+                class="
+                    absolute
+                    bottom-[-140px]
+                    right-[-120px]
+                    h-[420px]
+                    w-[420px]
+                    rounded-full
+                    bg-slate-200/40
+                    blur-[120px]
+                    dark:bg-slate-700/10
+                "
+            />
         </div>
 
-        <div class="relative min-h-screen">
+        <div class="relative">
             <!-- NAVBAR -->
             <nav class="sticky top-0 z-50">
-                <div class="mx-auto max-w-7xl px-4 pt-4 sm:px-6 lg:px-8">
-                    <div class="rounded-[24px] border border-white/70 bg-white/72 shadow-[0_10px_40px_rgba(15,23,42,0.08)] backdrop-blur-xl">
-                        <div class="flex h-20 items-center justify-between px-4 sm:px-6">
+                <div class="mx-auto max-w-7xl px-4 pt-5 sm:px-6 lg:px-8">
+                    <div
+                        class="
+                            rounded-[32px]
+                            border
+                            border-slate-200/70
+                            bg-white/90
+                            shadow-[0_12px_40px_rgba(15,23,42,0.06)]
+                            backdrop-blur-md
+                            dark:border-slate-800
+                            dark:bg-slate-900/85
+                        "
+                    >
+                        <div
+                            class="
+                                flex
+                                h-[84px]
+                                items-center
+                                justify-between
+                                px-6
+                            "
+                        >
                             <!-- LEFT -->
-                            <div class="flex items-center gap-4 lg:gap-8">
+                            <div class="flex items-center gap-10">
                                 <!-- LOGO -->
-                                <div class="shrink-0 flex items-center">
-                                    <Link
-                                        :href="route('spaces.index')"
-                                        class="group flex items-center gap-3"
+                                <Link
+                                    :href="
+                                        $page.props.auth.user
+                                            ? (
+                                                $page.props.auth.user.role === 'admin'
+                                                    ? route('admin.dashboard')
+                                                    : route('spaces.index')
+                                            )
+                                            : route('spaces.index')
+                                    "
+                                    class="flex items-center gap-4"
+                                >
+                                    <div
+                                        class="
+                                            flex
+                                            h-11
+                                            w-11
+                                            items-center
+                                            justify-center
+                                            rounded-2xl
+                                            bg-slate-900
+                                            shadow-md
+                                            dark:bg-slate-800
+                                        "
                                     >
-                                        <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200/80 bg-white shadow-[0_6px_24px_rgba(15,23,42,0.08)] transition duration-300 group-hover:scale-[1.03] group-hover:shadow-[0_10px_30px_rgba(15,23,42,0.12)]">
-                                            <ApplicationMark class="block h-7 w-auto" />
-                                        </div>
+                                        <ApplicationMark
+                                            class="h-6 w-auto text-white"
+                                        />
+                                    </div>
 
-                                        <div class="hidden sm:block">
-                                            <div class="text-sm font-semibold tracking-[-0.02em] text-slate-900">
-                                                Coworking Reserve
-                                            </div>
-                                            <div class="text-xs font-medium text-slate-500">
-                                                Workspace booking platform
-                                            </div>
-                                        </div>
-                                    </Link>
-                                </div>
+                                    <div class="hidden sm:block">
+                                        <h1
+                                            class="
+                                                text-sm
+                                                font-bold
+                                                tracking-tight
+                                            "
+                                        >
+                                            Coworking Reserve
+                                        </h1>
+
+                                        <p
+                                            class="
+                                                text-xs
+                                                text-slate-500
+                                                dark:text-slate-400
+                                            "
+                                        >
+                                            Workspace management
+                                        </p>
+                                    </div>
+                                </Link>
 
                                 <!-- NAVIGATION -->
-                                <div class="hidden sm:flex sm:items-center">
-                                    <!-- CLIENTE / INVITADO -->
+                                <div class="hidden lg:flex items-center gap-2">
+                                    <!-- CLIENT -->
                                     <template
                                         v-if="
                                             !$page.props.auth.user
@@ -79,123 +200,202 @@ const logout = () => {
                                             $page.props.auth.user.role !== 'admin'
                                         "
                                     >
-                                        <div class="rounded-full border border-slate-200/80 bg-slate-50/80 px-2 py-1 shadow-inner">
-                                            <NavLink
-                                                :href="route('spaces.index')"
-                                                :active="route().current('spaces.*')"
-                                            >
-                                                Espacios
-                                            </NavLink>
-                                        </div>
+                                        <NavLink
+                                            :href="route('spaces.index')"
+                                            :active="route().current('spaces.*')"
+                                        >
+                                            Espacios
+                                        </NavLink>
                                     </template>
 
                                     <!-- ADMIN -->
-                                    <template v-if="$page.props.auth.user?.role === 'admin'">
-                                        <div class="flex items-center gap-1 rounded-full border border-slate-200/80 bg-slate-50/80 px-2 py-1 shadow-inner">
-                                            <NavLink
-                                                :href="route('admin.dashboard')"
-                                                :active="route().current('admin.dashboard')"
-                                            >
-                                                Dashboard
-                                            </NavLink>
+                                    <template
+                                        v-if="$page.props.auth.user?.role === 'admin'"
+                                    >
+                                        <NavLink
+                                            :href="route('admin.dashboard')"
+                                            :active="route().current('admin.dashboard')"
+                                        >
+                                            Dashboard
+                                        </NavLink>
 
-                                            <NavLink
-                                                :href="route('admin.spaces.index')"
-                                                :active="route().current('admin.spaces.*')"
-                                            >
-                                                Administrar Espacios
-                                            </NavLink>
+                                        <NavLink
+                                            :href="route('admin.spaces.index')"
+                                            :active="route().current('admin.spaces.*')"
+                                        >
+                                            Espacios
+                                        </NavLink>
 
-                                            <NavLink
-                                                :href="route('reservations.index')"
-                                                :active="route().current('reservations.*')"
-                                            >
-                                                Reservas
-                                            </NavLink>
+                                        <NavLink
+                                            :href="route('reservations.index')"
+                                            :active="route().current('reservations.*')"
+                                        >
+                                            Reservas
+                                        </NavLink>
 
-                                            <NavLink
-                                                :href="route('admin.calendar.show')"
-                                                :active="route().current('admin.calendar.*')"
-                                            >
-                                                Calendario
-                                            </NavLink>
+                                        <NavLink
+                                            :href="route('admin.calendar.show')"
+                                            :active="route().current('admin.calendar.*')"
+                                        >
+                                            Calendario
+                                        </NavLink>
 
-                                            <NavLink
-                                                :href="route('spaces.create')"
-                                                :active="route().current('spaces.create')"
-                                            >
-                                                Crear Espacio
-                                            </NavLink>
-
-                                            <NavLink
-                                                :href="route('spaces.index')"
-                                                :active="route().current('spaces.show')"
-                                            >
-                                                Ver Sitio
-                                            </NavLink>
-                                        </div>
+                                        <NavLink
+                                            :href="route('spaces.create')"
+                                            :active="route().current('spaces.create')"
+                                        >
+                                            Crear
+                                        </NavLink>
                                     </template>
                                 </div>
                             </div>
 
                             <!-- RIGHT -->
-                            <div class="hidden sm:flex sm:items-center sm:ms-6">
+                            <div class="hidden sm:flex items-center gap-4">
+                                <!-- THEME -->
+                                <button
+                                    @click="toggleDarkMode"
+                                    class="
+                                        flex
+                                        h-11
+                                        w-11
+                                        items-center
+                                        justify-center
+                                        rounded-xl
+                                        border
+                                        border-slate-200
+                                        bg-white
+                                        text-slate-700
+                                        transition-all
+                                        duration-200
+                                        hover:border-sky-200
+                                        hover:bg-slate-100
+                                        dark:border-slate-700
+                                        dark:bg-slate-900
+                                        dark:text-slate-200
+                                        dark:hover:border-sky-700
+                                        dark:hover:bg-slate-800
+                                    "
+                                >
+                                    <span v-if="darkMode">☀️</span>
+                                    <span v-else>🌙</span>
+                                </button>
+
                                 <!-- USER -->
                                 <div
                                     v-if="$page.props.auth.user"
-                                    class="ms-3 relative"
+                                    class="relative"
                                 >
                                     <Dropdown
                                         align="right"
-                                        width="48"
+                                        width="56"
                                     >
                                         <template #trigger>
-                                            <span class="inline-flex rounded-2xl">
-                                                <button
-                                                    type="button"
-                                                    class="group inline-flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-700 shadow-[0_6px_24px_rgba(15,23,42,0.06)] transition duration-300 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 focus:outline-none"
+                                            <button
+                                                type="button"
+                                                class="
+                                                    flex
+                                                    items-center
+                                                    gap-3
+                                                    rounded-2xl
+                                                    border
+                                                    border-slate-200
+                                                    bg-white
+                                                    px-3
+                                                    py-2
+                                                    shadow-sm
+                                                    transition
+                                                    duration-300
+                                                    hover:border-slate-300
+                                                    hover:shadow-md
+                                                    dark:border-slate-700
+                                                    dark:bg-slate-900
+                                                "
+                                            >
+                                                <div
+                                                    class="
+                                                        flex
+                                                        h-10
+                                                        w-10
+                                                        items-center
+                                                        justify-center
+                                                        rounded-full
+                                                        bg-slate-900
+                                                        text-sm
+                                                        font-bold
+                                                        text-white
+                                                        dark:bg-slate-800
+                                                    "
                                                 >
-                                                    <span class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-700 text-xs font-semibold text-white shadow-md">
-                                                        {{ $page.props.auth.user.name?.charAt(0) }}
-                                                    </span>
+                                                    {{
+                                                        $page.props.auth.user.name?.charAt(0)
+                                                    }}
+                                                </div>
 
-                                                    <span class="max-w-[140px] truncate font-semibold">
-                                                        {{ $page.props.auth.user.name }}
-                                                    </span>
-
-                                                    <svg
-                                                        class="size-4 text-slate-400 transition duration-300 group-hover:text-slate-600"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                        stroke-width="1.5"
-                                                        stroke="currentColor"
+                                                <div class="hidden md:block text-left">
+                                                    <div
+                                                        class="
+                                                            max-w-[140px]
+                                                            truncate
+                                                            text-sm
+                                                            font-semibold
+                                                        "
                                                     >
-                                                        <path
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"
-                                                            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                                                        />
-                                                    </svg>
-                                                </button>
-                                            </span>
+                                                        {{
+                                                            $page.props.auth.user.name
+                                                        }}
+                                                    </div>
+
+                                                    <div
+                                                        class="
+                                                            text-xs
+                                                            text-slate-500
+                                                            dark:text-slate-400
+                                                        "
+                                                    >
+                                                        {{
+                                                            $page.props.auth.user.role === 'admin'
+                                                                ? 'Administrador'
+                                                                : 'Usuario'
+                                                        }}
+                                                    </div>
+                                                </div>
+                                            </button>
                                         </template>
 
                                         <template #content>
-                                            <div class="px-4 py-3">
-                                                <div class="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                                            <div
+                                                class="
+                                                    border-b
+                                                    border-slate-200
+                                                    px-4
+                                                    py-3
+                                                    dark:border-slate-700
+                                                "
+                                            >
+                                                <div
+                                                    class="
+                                                        text-xs
+                                                        uppercase
+                                                        tracking-[0.18em]
+                                                        text-slate-400
+                                                    "
+                                                >
                                                     Mi cuenta
                                                 </div>
-                                                <div class="mt-1 text-sm font-semibold text-slate-800">
-                                                    {{ $page.props.auth.user.name }}
+
+                                                <div class="mt-1 font-semibold">
+                                                    {{
+                                                        $page.props.auth.user.name
+                                                    }}
                                                 </div>
                                             </div>
 
-                                            <DropdownLink :href="route('profile.show')">
+                                            <DropdownLink
+                                                :href="route('profile.show')"
+                                            >
                                                 Perfil
                                             </DropdownLink>
-
-                                            <div class="border-t border-gray-200 dark:border-gray-600" />
 
                                             <form @submit.prevent="logout">
                                                 <DropdownLink as="button">
@@ -206,84 +406,130 @@ const logout = () => {
                                     </Dropdown>
                                 </div>
 
-                                <!-- INVITADO -->
+                                <!-- GUEST -->
                                 <div
                                     v-else
                                     class="flex items-center gap-3"
                                 >
                                     <Link
                                         :href="route('login')"
-                                        class="inline-flex items-center rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-600 transition duration-300 hover:bg-white hover:text-slate-900"
+                                        class="
+                                            rounded-xl
+                                            px-4
+                                            py-2
+                                            text-sm
+                                            font-semibold
+                                            transition
+                                            hover:bg-slate-100
+                                            dark:hover:bg-slate-800
+                                        "
                                     >
                                         Iniciar sesión
                                     </Link>
 
                                     <Link
                                         :href="route('register')"
-                                        class="inline-flex items-center rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(15,23,42,0.18)] transition duration-300 hover:translate-y-[-1px] hover:bg-slate-800"
+                                        class="
+                                            rounded-xl
+                                            bg-sky-600
+                                            px-5
+                                            py-2.5
+                                            text-sm
+                                            font-semibold
+                                            text-white
+                                            transition
+                                            hover:bg-sky-700
+                                            hover:translate-y-[-1px]
+                                            dark:bg-sky-600
+                                        "
                                     >
                                         Registrarse
                                     </Link>
                                 </div>
                             </div>
 
-                            <!-- MOBILE BUTTON -->
-                            <div class="-me-2 flex items-center sm:hidden">
+                            <!-- MOBILE -->
+                            <div class="flex items-center gap-2 sm:hidden">
                                 <button
-                                    class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 shadow-[0_6px_24px_rgba(15,23,42,0.06)] transition duration-300 hover:bg-slate-50 hover:text-slate-900"
+                                    @click="toggleDarkMode"
+                                    class="
+                                        flex
+                                        h-11
+                                        w-11
+                                        items-center
+                                        justify-center
+                                        rounded-xl
+                                        border
+                                        border-slate-200
+                                        bg-white
+                                        dark:border-slate-700
+                                        dark:bg-slate-900
+                                    "
+                                >
+                                    <span v-if="darkMode">☀️</span>
+                                    <span v-else>🌙</span>
+                                </button>
+
+                                <button
+                                    class="
+                                        flex
+                                        h-11
+                                        w-11
+                                        items-center
+                                        justify-center
+                                        rounded-xl
+                                        border
+                                        border-slate-200
+                                        bg-white
+                                        dark:border-slate-700
+                                        dark:bg-slate-900
+                                    "
                                     @click="
                                         showingNavigationDropdown =
                                         !showingNavigationDropdown
                                     "
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.8"
-                                        stroke="currentColor"
-                                        class="size-5"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                                        />
-                                    </svg>
+                                    ☰
                                 </button>
                             </div>
                         </div>
 
                         <!-- MOBILE MENU -->
                         <div
-                            :class="{
-                                block: showingNavigationDropdown,
-                                hidden: !showingNavigationDropdown
-                            }"
-                            class="border-t border-slate-200/80 px-4 pb-4 pt-3 sm:hidden"
+                            v-show="showingNavigationDropdown"
+                            class="
+                                border-t
+                                border-slate-200
+                                px-4
+                                pb-4
+                                pt-3
+                                dark:border-slate-800
+                            "
                         >
-                            <div class="space-y-2 rounded-2xl border border-slate-200 bg-slate-50/80 p-3">
-                                <template v-if="$page.props.auth.user?.role === 'admin'">
-                                    <ResponsiveNavLink :href="route('admin.dashboard')">
-                                        Dashboard
-                                    </ResponsiveNavLink>
+                            <div class="space-y-2">
+                                <ResponsiveNavLink
+                                    :href="route('admin.dashboard')"
+                                >
+                                    Dashboard
+                                </ResponsiveNavLink>
 
-                                    <ResponsiveNavLink :href="route('spaces.index')">
-                                        Espacios
-                                    </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    :href="route('admin.spaces.index')"
+                                >
+                                    Espacios
+                                </ResponsiveNavLink>
 
-                                    <ResponsiveNavLink :href="route('reservations.index')">
-                                        Reservas
-                                    </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    :href="route('reservations.index')"
+                                >
+                                    Reservas
+                                </ResponsiveNavLink>
 
-                                    <ResponsiveNavLink :href="route('admin.calendar.show')">
-                                        Calendario
-                                    </ResponsiveNavLink>
-
-                                    <ResponsiveNavLink :href="route('spaces.create')">
-                                        Crear Espacio
-                                    </ResponsiveNavLink>
-                                </template>
+                                <ResponsiveNavLink
+                                    :href="route('admin.calendar.show')"
+                                >
+                                    Calendario
+                                </ResponsiveNavLink>
                             </div>
                         </div>
                     </div>

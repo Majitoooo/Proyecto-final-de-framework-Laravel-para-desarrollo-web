@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Services\ReservationService;
 use App\Models\Availability;
+use Illuminate\Support\Facades\Storage;
 
 class SpaceController extends Controller
 {
@@ -49,6 +50,8 @@ class SpaceController extends Controller
 
             'usage_rules' => 'nullable|string',
 
+            'image' => 'nullable|image|max:2048',
+
             'availability' => 'required|array',
 
             'availability.*.day_of_week'
@@ -61,26 +64,29 @@ class SpaceController extends Controller
                 => 'nullable',
         ]);
 
-        $space = Space::create([
+         $space = Space::create([
 
-            'name' => $data['name'],
+             'name' => $data['name'],
 
-            'type' => $data['type'],
+             'type' => $data['type'],
 
-            'capacity' => $data['capacity'],
+             'capacity' => $data['capacity'],
 
-            'description' => $data['description'],
-                        
-            'usage_rules'
-                => $data['usage_rules'],
+             'description' => $data['description'],
+                         
+             'usage_rules'
+                 => $data['usage_rules'],
 
-            'price_per_hour'
-                => $data['price_per_hour'],
+             'price_per_hour'
+                 => $data['price_per_hour'],
 
-            'is_active'
-                => $data['is_active'],
+             'is_active'
+                 => $data['is_active'],
 
-        ]);
+             'image' => $request->hasFile('image')
+                 ? $request->file('image')->store('spaces', 'public')
+                 : null,
+         ]);
 
         foreach (
             $data['availability']
@@ -150,7 +156,7 @@ class SpaceController extends Controller
 
             'description'
                 => 'nullable|string',
-                        
+                         
             'usage_rules'
                 => 'nullable|string',
 
@@ -159,6 +165,8 @@ class SpaceController extends Controller
 
             'is_active'
                 => 'required|boolean',
+
+            'image' => 'nullable|image|max:2048',
 
             'availability'
                 => 'required|array',
@@ -174,29 +182,33 @@ class SpaceController extends Controller
         ]);
 
         // Actualizar espacio
-        $space->update([
+        $updateData = [
 
-            'name'
-                => $data['name'],
+            'name' => $data['name'],
 
-            'type'
-                => $data['type'],
+            'type' => $data['type'],
 
-            'capacity'
-                => $data['capacity'],
+            'capacity' => $data['capacity'],
 
-            'description'
-                => $data['description'],
+            'description' => $data['description'],
 
-            'usage_rules'
-                => $data['usage_rules'],
+            'usage_rules' => $data['usage_rules'],
 
-            'price_per_hour'
-                => $data['price_per_hour'],
+            'price_per_hour' => $data['price_per_hour'],
 
-            'is_active'
-                => $data['is_active'],
-        ]);
+            'is_active' => $data['is_active'],
+        ];
+
+        // Manejar imagen si se subió una nueva
+        if ($request->hasFile('image')) {
+            // Eliminar imagen anterior
+            if ($space->image) {
+                Storage::disk('public')->delete($space->image);
+            }
+            $updateData['image'] = $request->file('image')->store('spaces', 'public');
+        }
+
+        $space->update($updateData);
 
         // Borrar disponibilidad vieja
         $space->availabilities()

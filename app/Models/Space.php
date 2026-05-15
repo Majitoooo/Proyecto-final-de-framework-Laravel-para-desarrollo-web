@@ -22,6 +22,7 @@ class Space extends Model
         'usage_rules',
         'price_per_hour',
         'is_active',
+        'image',
     ];
 
     protected static function boot()

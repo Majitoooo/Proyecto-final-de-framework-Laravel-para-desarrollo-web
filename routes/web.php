@@ -250,3 +250,24 @@ Route::middleware([
         [AdminReservationController::class, 'finish']
     )->name('reservations.finish');
 });
+
+Route::get(
+    '/dashboard',
+    function () {
+
+        if (
+            auth()->check()
+            &&
+            auth()->user()->role === 'admin'
+        ) {
+
+            return redirect(
+                '/admin/dashboard'
+            );
+        }
+
+        return redirect(
+            route('spaces.index')
+        );
+    }
+)->name('dashboard');
