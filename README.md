@@ -1,58 +1,277 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 CoWorkly
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<div align="center">
 
-## About Laravel
+<img width="140" alt="CoWorkly Logo" src="https://img.icons8.com/fluency/240/office.png"/>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Plataforma inteligente para la gestión y reserva de espacios de coworking
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Sistema web desarrollado con **Laravel + Vue + Inertia.js** para administrar espacios de coworking, reservas, usuarios y disponibilidad en tiempo real.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+![Laravel](https://img.shields.io/badge/Laravel-13-red?style=for-the-badge&logo=laravel)
+![Vue](https://img.shields.io/badge/Vue-3-42b883?style=for-the-badge&logo=vue.js)
+![Inertia](https://img.shields.io/badge/Inertia.js-9553E9?style=for-the-badge)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38BDF8?style=for-the-badge&logo=tailwindcss)
+![Brevo](https://img.shields.io/badge/Brevo-Email-blue?style=for-the-badge)
 
-## Learning Laravel
+</div>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# 📌 Descripción
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+**CoWorkly** es una plataforma web desarrollada para optimizar la administración y reserva de espacios de coworking.
 
-## Agentic Development
+El sistema permite a los usuarios consultar espacios disponibles, realizar reservas y gestionar sus horarios, mientras que los administradores pueden controlar usuarios, espacios, disponibilidad, bloqueos horarios y estadísticas generales del sistema.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+El objetivo del proyecto es modernizar el proceso de administración de espacios colaborativos mediante una experiencia intuitiva, rápida y visualmente atractiva.
 
-```bash
-composer require laravel/boost --dev
+---
 
-php artisan boost:install
-```
+# ✨ Características principales
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## 👤 Funcionalidades para usuarios
 
-## Contributing
+✅ Registro e inicio de sesión seguro  
+✅ Consulta de espacios disponibles  
+✅ Reserva de espacios coworking  
+✅ Visualización de disponibilidad en calendario  
+✅ Gestión de reservas personales  
+✅ Confirmación de reservas  
+✅ Interfaz intuitiva y moderna  
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## 🛠️ Funcionalidades administrativas
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+✅ Dashboard administrativo con estadísticas  
+✅ CRUD completo de espacios  
+✅ CRUD de usuarios  
+✅ Activación / desactivación de espacios  
+✅ Eliminación segura de espacios  
+✅ Gestión de disponibilidad por días y horarios  
+✅ Bloqueo de franjas horarias  
+✅ Calendario administrativo de reservas  
+✅ Gestión de estados de reservas  
+✅ Control de permisos por roles (admin/user)
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# 🧠 Módulos principales
 
-## License
+### 📅 Gestión de reservas
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Permite a los usuarios reservar espacios según disponibilidad horaria y restricciones definidas por el administrador.
+
+### 🏢 Gestión de espacios
+
+Administración de:
+
+- Oficinas privadas
+- Salas de reuniones
+- Cabinas
+- Espacios coworking
+- Auditorios
+- Terrazas
+
+Cada espacio cuenta con:
+
+- Nombre
+- Tipo
+- Imagen
+- Capacidad
+- Precio por hora
+- Reglas de uso
+- Disponibilidad personalizada
+
+### 👥 Gestión de usuarios
+
+Administración de usuarios registrados:
+
+- Crear usuarios
+- Editar usuarios
+- Cambiar roles
+- Eliminar usuarios
+- Validaciones de seguridad
+
+### 📊 Dashboard administrativo
+
+Visualización de métricas importantes:
+
+- Reservas pendientes
+- Reservas aprobadas
+- Espacios activos
+- Usuarios registrados
+- Estadísticas visuales
+
+---
+
+# 🛠️ Tecnologías utilizadas
+
+| Tecnología | Uso |
+|------------|-----|
+| Laravel 13 | Backend |
+| Vue 3 | Frontend |
+| Inertia.js | Comunicación SPA |
+| Jetstream | Autenticación |
+| PostgreSQL | Base de datos |
+| TailwindCSS | Diseño UI |
+| Vite | Build Tool |
+| Brevo SMTP | Envío de correos |
+| Ziggy | Rutas frontend |
+
+---
+
+# 🏗️ Arquitectura del sistema
+
+El proyecto implementa una arquitectura basada en:
+
+```text
+Laravel MVC
+│
+├── Models
+├── Controllers
+├── Middleware
+├── Policies
+│
+Vue 3 + Inertia
+│
+├── Pages
+├── Components
+├── Layouts
+
+Se emplea Inertia.js para ofrecer una experiencia tipo SPA sin necesidad de API REST tradicional.
+
+🔐 Roles del sistema
+Usuario
+
+Puede:
+
+Ver espacios
+Reservar espacios
+Gestionar reservas
+Consultar disponibilidad
+Administrador
+
+Puede:
+
+Gestionar usuarios
+Gestionar espacios
+Editar disponibilidad
+Bloquear horarios
+Aprobar reservas
+Visualizar estadísticas
+📩 Sistema de correos
+
+El proyecto utiliza Brevo SMTP para el envío de correos automáticos relacionados con:
+
+Confirmación de reservas
+Notificaciones del sistema
+Mensajes transaccionales
+
+Configuración mediante variables de entorno:
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp-relay.brevo.com
+MAIL_PORT=587
+MAIL_USERNAME=TU_USUARIO
+MAIL_PASSWORD=TU_SMTP_KEY
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=noreply@coworkly.com
+MAIL_FROM_NAME="CoWorkly"
+🗄️ Base de datos
+
+Motor utilizado:
+
+PostgreSQL
+
+El sistema utiliza migraciones y seeders para estructurar:
+
+Usuarios
+Espacios
+Reservas
+Disponibilidad
+Bloqueos horarios
+Reseñas
+⚙️ Instalación local
+1. Clonar repositorio
+git clone https://github.com/Majitoooo/Proyecto-final-de-framework-Laravel-para-desarrollo-web.git
+
+Entrar al proyecto:
+
+cd Proyecto-final-de-framework-Laravel-para-desarrollo-web
+2. Instalar dependencias
+Backend
+composer install
+Frontend
+npm install
+3. Configurar entorno
+
+Copiar archivo:
+
+cp .env.example .env
+
+Configurar:
+
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=coworkly
+DB_USERNAME=postgres
+DB_PASSWORD=tu_password
+4. Generar key
+php artisan key:generate
+5. Ejecutar migraciones
+php artisan migrate
+6. Crear enlace storage
+php artisan storage:link
+7. Ejecutar proyecto
+
+Backend:
+
+php artisan serve
+
+Frontend:
+
+npm run dev
+📸 Capturas del sistema
+Landing Page
+
+Agregar screenshot
+
+Login / Register
+
+Agregar screenshot
+
+Dashboard administrativo
+
+Agregar screenshot
+
+Gestión de espacios
+
+Agregar screenshot
+
+Calendario de reservas
+
+Agregar screenshot
+
+🚀 Futuras mejoras
+Integración de pagos online
+Sistema de membresías
+Reservas recurrentes
+Estadísticas avanzadas
+Aplicación móvil
+Notificaciones en tiempo real
+👩‍💻 Autora
+María José Cordón Vasco
+
+Proyecto desarrollado como trabajo final de Framework Laravel para Desarrollo Web.
+
+GitHub:
+
+Repositorio del proyecto
+
+<div align="center">
+✨ CoWorkly — Reserva espacios inteligentes
+</div> ```
