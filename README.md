@@ -454,83 +454,6 @@ El sistema cuenta con un dashboard que permite visualizar:
 - Estadísticas visuales
 - Gráficos del sistema
 
----
-
-# 📸 Capturas del sistema
-
-## Landing Page
-
-_Agregar screenshot_
-
-## Login
-
-_Agregar screenshot_
-
-## Register
-
-_Agregar screenshot_
-
-## Dashboard administrativo
-
-_Agregar screenshot_
-
-## Gestión de espacios
-
-_Agregar screenshot_
-
-## Gestión de usuarios
-
-_Agregar screenshot_
-
-## Calendario de reservas
-
-_Agregar screenshot_
-
----
-
-# 🛠️ Troubleshooting
-
-## Error de imágenes
-
-Ejecutar:
-
-```bash
-php artisan storage:link
-```
-
----
-
-## Error de cache
-
-Ejecutar:
-
-```bash
-php artisan optimize:clear
-```
-
----
-
-## Error frontend
-
-Eliminar dependencias y reinstalar:
-
-```bash
-rm -rf node_modules
-npm install
-```
-
----
-
-## Error de migraciones
-
-Reiniciar base de datos:
-
-```bash
-php artisan migrate:fresh
-```
-
----
-
 # 🚀 Futuras mejoras
 
 - Sistema de pagos online
@@ -547,7 +470,7 @@ php artisan migrate:fresh
 ### María José Cordón Vasco
 
 Proyecto desarrollado para la asignatura:
-
+        
 **Framework Laravel para Desarrollo Web**
 
 ---
