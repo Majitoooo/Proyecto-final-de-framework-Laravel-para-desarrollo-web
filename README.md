@@ -21,89 +21,136 @@ Sistema web desarrollado con **Laravel + Vue + Inertia.js** para administrar esp
 
 # 📌 Descripción
 
-**CoWorkly** es una plataforma web desarrollada para optimizar la administración y reserva de espacios de coworking.
+**CoWorkly** es una plataforma web diseñada para optimizar la gestión y reserva de espacios de coworking, permitiendo administrar puestos de trabajo, salas de reuniones y disponibilidad de horarios de forma digital.
 
-El sistema permite a los usuarios consultar espacios disponibles, realizar reservas y gestionar sus horarios, mientras que los administradores pueden controlar usuarios, espacios, disponibilidad, bloqueos horarios y estadísticas generales del sistema.
+El sistema permite a los usuarios consultar espacios disponibles, visualizar horarios, reservar espacios y administrar sus reservas. Por otro lado, los administradores tienen control completo sobre usuarios, espacios, disponibilidad, bloqueos horarios, calendario y estadísticas del sistema.
 
-El objetivo del proyecto es modernizar el proceso de administración de espacios colaborativos mediante una experiencia intuitiva, rápida y visualmente atractiva.
+Este proyecto fue desarrollado como **proyecto final de Framework Laravel para Desarrollo Web**, implementando buenas prácticas de desarrollo web moderno con Laravel, Vue e Inertia.js.
 
 ---
 
-# ✨ Características principales
+## ✨ Características principales
 
-## 👤 Funcionalidades para usuarios
+### 👤 Funcionalidades para usuarios
 
 ✅ Registro e inicio de sesión seguro  
 ✅ Consulta de espacios disponibles  
+✅ Visualización de disponibilidad por fechas  
 ✅ Reserva de espacios coworking  
-✅ Visualización de disponibilidad en calendario  
 ✅ Gestión de reservas personales  
-✅ Confirmación de reservas  
-✅ Interfaz intuitiva y moderna  
+✅ Visualización de calendario de reservas  
+✅ Confirmación de acciones mediante correo electrónico  
+✅ Diseño moderno e intuitivo  
 
 ---
 
-## 🛠️ Funcionalidades administrativas
+### 🛠️ Funcionalidades administrativas
 
 ✅ Dashboard administrativo con estadísticas  
 ✅ CRUD completo de espacios  
-✅ CRUD de usuarios  
-✅ Activación / desactivación de espacios  
+✅ CRUD completo de usuarios  
+✅ Activar / desactivar espacios  
 ✅ Eliminación segura de espacios  
-✅ Gestión de disponibilidad por días y horarios  
+✅ Gestión de disponibilidad por día y horario  
 ✅ Bloqueo de franjas horarias  
 ✅ Calendario administrativo de reservas  
-✅ Gestión de estados de reservas  
-✅ Control de permisos por roles (admin/user)
+✅ Gestión de roles (`admin` / `user`)  
+✅ Visualización de métricas del sistema  
 
 ---
 
-# 🧠 Módulos principales
+# 🧠 ¿Cómo funciona el sistema?
 
-### 📅 Gestión de reservas
+## Flujo del usuario
 
-Permite a los usuarios reservar espacios según disponibilidad horaria y restricciones definidas por el administrador.
+1. El usuario se registra o inicia sesión.
+2. Ingresa al catálogo de espacios disponibles.
+3. Selecciona el espacio deseado.
+4. Consulta horarios disponibles.
+5. Realiza la reserva.
+6. El sistema registra la reserva y actualiza disponibilidad.
 
-### 🏢 Gestión de espacios
+---
 
-Administración de:
+## Flujo del administrador
 
-- Oficinas privadas
-- Salas de reuniones
-- Cabinas
-- Espacios coworking
-- Auditorios
-- Terrazas
+El administrador puede:
 
-Cada espacio cuenta con:
+- Crear espacios
+- Editar espacios
+- Activar o desactivar espacios
+- Eliminar espacios sin reservas asociadas
+- Administrar usuarios
+- Cambiar roles de usuarios
+- Configurar horarios de disponibilidad
+- Bloquear franjas horarias
+- Visualizar reservas desde calendario
+- Ver estadísticas del sistema
+
+---
+
+# 🏢 Gestión de espacios
+
+Cada espacio dentro del sistema puede contener:
 
 - Nombre
-- Tipo
+- Tipo de espacio
 - Imagen
-- Capacidad
-- Precio por hora
+- Capacidad de personas
+- Descripción
 - Reglas de uso
+- Precio por hora
 - Disponibilidad personalizada
+- Estado (activo/inactivo)
 
-### 👥 Gestión de usuarios
+Ejemplos de espacios:
 
-Administración de usuarios registrados:
+- Puestos coworking
+- Oficinas privadas
+- Salas de reuniones
+- Cabinas de videollamadas
+- Auditorios
+- Terrazas coworking
 
-- Crear usuarios
-- Editar usuarios
-- Cambiar roles
-- Eliminar usuarios
-- Validaciones de seguridad
+---
 
-### 📊 Dashboard administrativo
+# 🔐 Roles del sistema
 
-Visualización de métricas importantes:
+## Usuario
 
-- Reservas pendientes
-- Reservas aprobadas
-- Espacios activos
-- Usuarios registrados
-- Estadísticas visuales
+Puede:
+
+- Ver espacios
+- Realizar reservas
+- Consultar disponibilidad
+- Gestionar sus reservas
+
+## Administrador
+
+Puede:
+
+- Gestionar espacios
+- Gestionar usuarios
+- Gestionar disponibilidad
+- Gestionar reservas
+- Bloquear horarios
+- Ver estadísticas
+
+---
+
+# 👤 Usuario administrador por defecto
+
+El proyecto incluye un usuario administrador inicial para pruebas locales:
+
+```txt
+Correo:
+admin@gmail.com
+
+Contraseña:
+admin1234
+```
+
+También es posible cambiar el rol de cualquier usuario desde el **CRUD de usuarios**.
 
 ---
 
@@ -115,17 +162,56 @@ Visualización de métricas importantes:
 | Vue 3 | Frontend |
 | Inertia.js | Comunicación SPA |
 | Jetstream | Autenticación |
+| Fortify | Seguridad y autenticación |
+| Sanctum | Manejo de autenticación |
 | PostgreSQL | Base de datos |
 | TailwindCSS | Diseño UI |
-| Vite | Build Tool |
-| Brevo SMTP | Envío de correos |
+| Vite | Compilación frontend |
+| Axios | Peticiones HTTP |
+| Chart.js | Estadísticas |
+| Vue ChartJS | Integración de gráficos |
 | Ziggy | Rutas frontend |
+| Brevo SMTP | Envío de correos |
+
+---
+
+# 📦 Dependencias principales
+
+## Backend (Composer)
+
+```text
+Laravel Framework
+Jetstream
+Fortify
+Sanctum
+Inertia Laravel
+Tinker
+Pint
+PHPUnit
+Google2FA
+Ziggy
+```
+
+## Frontend (NPM)
+
+```text
+Vue 3
+Inertia Vue 3
+TailwindCSS
+Axios
+Chart.js
+Vue ChartJS
+Vite
+Concurrently
+Tailwind Forms
+Tailwind Typography
+```
 
 ---
 
 # 🏗️ Arquitectura del sistema
 
-El proyecto implementa una arquitectura basada en:
+El proyecto implementa arquitectura:
 
 ```text
 Laravel MVC
@@ -135,143 +221,339 @@ Laravel MVC
 ├── Middleware
 ├── Policies
 │
-Vue 3 + Inertia
+Vue 3 + Inertia.js
 │
 ├── Pages
 ├── Components
 ├── Layouts
+```
 
-Se emplea Inertia.js para ofrecer una experiencia tipo SPA sin necesidad de API REST tradicional.
+Se utiliza **Inertia.js** para brindar experiencia tipo SPA sin necesidad de desarrollar una API REST separada.
 
-🔐 Roles del sistema
-Usuario
+---
 
-Puede:
-
-Ver espacios
-Reservar espacios
-Gestionar reservas
-Consultar disponibilidad
-Administrador
-
-Puede:
-
-Gestionar usuarios
-Gestionar espacios
-Editar disponibilidad
-Bloquear horarios
-Aprobar reservas
-Visualizar estadísticas
-📩 Sistema de correos
-
-El proyecto utiliza Brevo SMTP para el envío de correos automáticos relacionados con:
-
-Confirmación de reservas
-Notificaciones del sistema
-Mensajes transaccionales
-
-Configuración mediante variables de entorno:
-
-MAIL_MAILER=smtp
-MAIL_HOST=smtp-relay.brevo.com
-MAIL_PORT=587
-MAIL_USERNAME=TU_USUARIO
-MAIL_PASSWORD=TU_SMTP_KEY
-MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS=noreply@coworkly.com
-MAIL_FROM_NAME="CoWorkly"
-🗄️ Base de datos
+# 🗄️ Base de datos
 
 Motor utilizado:
 
+```text
 PostgreSQL
+```
 
-El sistema utiliza migraciones y seeders para estructurar:
+El sistema administra información relacionada con:
 
-Usuarios
-Espacios
-Reservas
-Disponibilidad
-Bloqueos horarios
-Reseñas
-⚙️ Instalación local
-1. Clonar repositorio
+- Usuarios
+- Espacios
+- Reservas
+- Disponibilidad
+- Bloqueos horarios
+- Reseñas
+
+---
+
+# 📩 Sistema de correos (Brevo SMTP)
+
+El proyecto utiliza **Brevo SMTP** para envío de correos automáticos.
+
+## Crear cuenta en Brevo
+
+1. Registrarse en:
+
+https://www.brevo.com/
+
+2. Ir a:
+
+```text
+SMTP & API
+```
+
+3. Crear una **SMTP Key**.
+
+4. Copiar la key generada.
+
+---
+
+## Configuración `.env`
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp-relay.brevo.com
+MAIL_PORT=587
+MAIL_USERNAME=tu_correo_brevo
+MAIL_PASSWORD=tu_smtp_key
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=noreply@coworkly.com
+MAIL_FROM_NAME="CoWorkly"
+```
+
+Después ejecutar:
+
+```bash
+php artisan optimize:clear
+```
+
+---
+
+# ⚙️ Instalación local
+
+## 1. Clonar proyecto
+
+```bash
 git clone https://github.com/Majitoooo/Proyecto-final-de-framework-Laravel-para-desarrollo-web.git
+```
 
 Entrar al proyecto:
 
+```bash
 cd Proyecto-final-de-framework-Laravel-para-desarrollo-web
-2. Instalar dependencias
-Backend
+```
+
+---
+
+## 2. Instalar dependencias backend
+
+```bash
 composer install
-Frontend
+```
+
+---
+
+## 3. Instalar dependencias frontend
+
+```bash
 npm install
-3. Configurar entorno
+```
 
-Copiar archivo:
+---
 
+## 4. Configurar entorno
+
+Copiar `.env`
+
+```bash
 cp .env.example .env
+```
 
-Configurar:
+---
 
+## 5. Configurar PostgreSQL
+
+Editar `.env`
+
+```env
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_DATABASE=coworkly
 DB_USERNAME=postgres
 DB_PASSWORD=tu_password
-4. Generar key
+```
+
+---
+
+## 6. Generar APP KEY
+
+```bash
 php artisan key:generate
-5. Ejecutar migraciones
+```
+
+---
+
+## 7. Ejecutar migraciones
+
+```bash
 php artisan migrate
-6. Crear enlace storage
+```
+
+---
+
+## 8. Crear enlace de imágenes
+
+```bash
 php artisan storage:link
-7. Ejecutar proyecto
+```
+
+---
+
+## 9. Ejecutar aplicación
+
+### Método recomendado
+
+Ejecuta todo junto:
+
+```bash
+composer run dev
+```
+
+Esto inicia:
+
+- Laravel Server
+- Queue Listener
+- Logs
+- Vite
+
+---
+
+### O manualmente
 
 Backend:
 
+```bash
 php artisan serve
+```
 
 Frontend:
 
+```bash
 npm run dev
-📸 Capturas del sistema
-Landing Page
+```
 
-Agregar screenshot
+---
 
-Login / Register
+---
 
-Agregar screenshot
+## 10. Ejecutar tareas automáticas (Scheduler)
 
-Dashboard administrativo
+CoWorkly utiliza tareas programadas de Laravel para automatizar procesos internos, como:
 
-Agregar screenshot
+- Finalizar reservas vencidas automáticamente
+- Actualizar estados de reservas
+- Ejecutar procesos periódicos del sistema
 
-Gestión de espacios
+Para que esto funcione correctamente en entorno local, debes ejecutar el scheduler de Laravel en una terminal adicional:
 
-Agregar screenshot
+```bash
+php artisan schedule:work
+```
 
-Calendario de reservas
+Este proceso debe permanecer ejecutándose mientras la aplicación esté activa.
 
-Agregar screenshot
+### ¿Qué hace?
 
-🚀 Futuras mejoras
-Integración de pagos online
-Sistema de membresías
-Reservas recurrentes
-Estadísticas avanzadas
-Aplicación móvil
-Notificaciones en tiempo real
-👩‍💻 Autora
-María José Cordón Vasco
+El sistema revisa constantemente las reservas activas y, cuando la hora final de una reserva ya ha pasado, automáticamente:
 
-Proyecto desarrollado como trabajo final de Framework Laravel para Desarrollo Web.
+✅ Cambia el estado a `finished`  
+✅ Finaliza la reserva  
+✅ Envía correo de finalización al usuario mediante Brevo SMTP
 
-GitHub:
+### Comando utilizado internamente
 
-Repositorio del proyecto
+```bash
+php artisan reservations:finish
+```
+
+Este comando es ejecutado automáticamente cada minuto por el scheduler de Laravel.
+
+# 📊 Dashboard administrativo
+
+El sistema cuenta con un dashboard que permite visualizar:
+
+- Espacios activos
+- Usuarios registrados
+- Reservas
+- Estadísticas visuales
+- Gráficos del sistema
+
+---
+
+# 📸 Capturas del sistema
+
+## Landing Page
+
+_Agregar screenshot_
+
+## Login
+
+_Agregar screenshot_
+
+## Register
+
+_Agregar screenshot_
+
+## Dashboard administrativo
+
+_Agregar screenshot_
+
+## Gestión de espacios
+
+_Agregar screenshot_
+
+## Gestión de usuarios
+
+_Agregar screenshot_
+
+## Calendario de reservas
+
+_Agregar screenshot_
+
+---
+
+# 🛠️ Troubleshooting
+
+## Error de imágenes
+
+Ejecutar:
+
+```bash
+php artisan storage:link
+```
+
+---
+
+## Error de cache
+
+Ejecutar:
+
+```bash
+php artisan optimize:clear
+```
+
+---
+
+## Error frontend
+
+Eliminar dependencias y reinstalar:
+
+```bash
+rm -rf node_modules
+npm install
+```
+
+---
+
+## Error de migraciones
+
+Reiniciar base de datos:
+
+```bash
+php artisan migrate:fresh
+```
+
+---
+
+# 🚀 Futuras mejoras
+
+- Sistema de pagos online
+- Reservas recurrentes
+- Notificaciones en tiempo real
+- Membresías premium
+- Aplicación móvil
+- Reportes avanzados
+
+---
+
+# 👩‍💻 Autora
+
+### María José Cordón Vasco
+
+Proyecto desarrollado para la asignatura:
+
+**Framework Laravel para Desarrollo Web**
+
+---
 
 <div align="center">
-✨ CoWorkly — Reserva espacios inteligentes
-</div> ```
+
+### ✨ CoWorkly — Reserva espacios inteligentes
+
+</div>

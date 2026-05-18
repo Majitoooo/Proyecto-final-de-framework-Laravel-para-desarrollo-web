@@ -1,7 +1,7 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import { usePage } from '@inertiajs/vue3'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import AppLayout from '@/Layouts/AppLayout.vue'
 
 const props = defineProps({
@@ -15,6 +15,32 @@ const page = usePage()
 
 const selectedStart = ref('')
 const selectedEnd = ref('')
+
+const selectedDate = ref(
+    props.date
+)
+
+watch(selectedStart, () => {
+    selectedEnd.value = ''
+})
+
+const searchDate = () => {
+
+    router.get(
+
+        `/spaces/${props.space.slug}`,
+
+        {
+            date:
+                selectedDate.value
+        },
+
+        {
+            preserveScroll: true,
+            preserveState: true
+        }
+    )
+}
 
 const typeIcons = {
     sala: '🏢',
@@ -30,23 +56,41 @@ const availableEndSlots = computed(() => {
     if (!selectedStart.value) return []
 
     const startIndex = props.slots.findIndex(
-        slot => slot.full_start === selectedStart.value
+        slot =>
+            slot.full_start ===
+            selectedStart.value
     )
 
-    if (startIndex === -1) return []
+    if (startIndex === -1)
+        return []
 
     const validSlots = []
 
-    for (let i = startIndex; i < props.slots.length; i++) {
-        const current = props.slots[i]
-        const next = props.slots[i + 1]
+    for (
+        let i = startIndex;
+        i < props.slots.length;
+        i++
+    ) {
+        const current =
+            props.slots[i]
 
         validSlots.push({
-            label: current.end,
-            value: current.full_end
+            label:
+                current.end,
+            value:
+                current.full_end
         })
 
-        if (next && current.full_end !== next.full_start) break
+        const next =
+            props.slots[i + 1]
+
+        if (
+            next &&
+            current.full_end !==
+                next.full_start
+        ) {
+            break
+        }
     }
 
     return validSlots
@@ -128,13 +172,16 @@ defineOptions({ layout: AppLayout })
         <div class="card">
             <div class="card-body">
                 <h2 class="section-title">Consultar disponibilidad</h2>
-                <form method="GET" class="date-form">
+                <form
+                    @submit.prevent="searchDate"
+                    class="date-form"
+                >
                     <div class="field-group">
                         <label class="field-label">Fecha</label>
                         <input
                             type="date"
                             name="date"
-                            :value="date"
+                            v-model="selectedDate"
                             class="date-input"
                         >
                     </div>

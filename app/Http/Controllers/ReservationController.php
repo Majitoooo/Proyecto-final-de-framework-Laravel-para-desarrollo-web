@@ -23,24 +23,30 @@ class ReservationController extends Controller
 
     public function create(Request $request)
     {
-        $space = Space::find($request->space_id);
+        $space = Space::find(
+            $request->space_id
+        );
 
         if (!$space) {
-            return redirect()->back()
-                ->with('error', 'Espacio no encontrado');
+            return redirect()
+                ->back()
+                ->with(
+                    'error',
+                    'Espacio no encontrado'
+                );
         }
 
-        $startTime = $request->start_time;
+        return Inertia::render(
+            'Reservations/Create',
+            [
+                'space' => $space,
+                'start_time' =>
+                    $request->start_time,
 
-        $endTime = Carbon::parse($startTime)
-            ->addHour()
-            ->toDateTimeString();
-
-        return Inertia::render('Reservations/Create', [
-            'space' => $space,
-            'start_time' => $startTime,
-            'end_time' => $endTime,
-        ]);
+                'end_time' =>
+                    $request->end_time,
+            ]
+        );
     }
 
     public function store(Request $request)
